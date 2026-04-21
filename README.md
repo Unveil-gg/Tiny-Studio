@@ -1,16 +1,13 @@
-<p align="center">
+<div align="center">
   <img
     src="assets/logo.png"
     alt="Tiny Studio"
     width="200"
   />
-</p>
-
-<h1 align="center">Tiny Studio</h1>
-
-<p align="center">
-  <em>An indie game studio in your Claude Code terminal.</em>
-</p>
+  <p>
+    <em>An indie game studio in your Claude Code terminal.</em>
+  </p>
+</div>
 
 A **Claude Code**-friendly (and **Cursor**-compatible) template for solo and tiny
 teams who want AI help that feels like **three talented friends in a small
