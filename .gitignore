@@ -1,0 +1,25 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs & build noise (tune per engine)
+*.log
+dist/
+build/
+bin/
+obj/
+
+# Optional local captures from QA
+qa-captures/
+*.tmp
