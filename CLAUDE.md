@@ -72,6 +72,11 @@ Skills live under `.claude/skills/`. This repo includes **`.cursor/skills` →
 truth**. If the link is missing or wrong after clone, see `README.md` (Cursor
 skills symlink).
 
+## Codex CLI
+
+Root **`AGENTS.md`** is the thin bootstrap Codex reads by default; it points here
+and into **`.claude/skills/`**.
+
 ---
 
 *Tiny Studio: friends making a game, not a department org chart.*
