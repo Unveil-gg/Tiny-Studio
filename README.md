@@ -88,12 +88,6 @@ default template stays quiet.
 - Tighten or loosen agent prompts in **`.claude/agents/`**.
 - Add **one** skill at a time under **`.claude/skills/`** — keep the set small.
 
-## Inspiration & contrast
-
-This template was designed **after reviewing** [Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code-Game-Studios): we keep the **good** (skills,
-agents, `CLAUDE.md` spine) and **drop** the **scale** (49 agents, 72 skills,
-deep hierarchy, heavy hooks). Same galaxy, **smaller ship**.
-
 ## License
 
 MIT — see `LICENSE`.
