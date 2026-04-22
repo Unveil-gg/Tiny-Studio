@@ -67,9 +67,10 @@ output, user captures). See `.claude/docs/qa-evidence.md`.
 
 ## Cursor compatibility
 
-Skills live under `.claude/skills/`. If you use Cursor project skills, you may
-mirror or symlink workflows under `.cursor/skills/` — keep a **single source of
-truth** to avoid drift.
+Skills live under `.claude/skills/`. This repo includes **`.cursor/skills` →
+`.claude/skills`** (symlink) so Cursor project skills stay a **single source of
+truth**. If the link is missing or wrong after clone, see `README.md` (Cursor
+skills symlink).
 
 ---
 

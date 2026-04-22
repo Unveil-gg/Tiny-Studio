@@ -5,13 +5,14 @@
     width="200"
   />
   <p>
-    <em>An indie game studio in your Claude Code terminal.</em>
+    <em>An indie game studio in your terminal or editor.</em>
   </p>
 </div>
 
-A **Claude Code**-friendly (and **Cursor**-compatible) template for solo and tiny
+A **Claude Code**-, **Cursor**-, and **CLI**-friendly template for solo and tiny
 teams who want AI help that feels like **three talented friends in a small
-studio** — not a AAA corporation.
+studio** — not a AAA corporation. Workflows live in **`.claude/skills/`**;
+Cursor loads the same tree via a **symlink** at **`.cursor/skills`**.
 
 ## What this is
 
@@ -19,11 +20,92 @@ studio** — not a AAA corporation.
 - **`.claude/agents/`** — exactly **three** agents: `game-developer`,
   `game-designer`, `game-artist`.
 - **`.claude/skills/`** — **eight** slash workflows (`/start`, `/brainstorm`, …).
+- **`.cursor/skills`** — symlink to **`.claude/skills/`** so Cursor project
+  skills stay in sync (see below).
 - **`.claude/docs/`** — short philosophy, collaboration, and QA-evidence notes.
 - **`.claude/settings.json`** — starter permission hints you can extend.
 
 There is **no** mandatory `src/`, engine, or engine-specific stack — add your game
 where you like; the template stays lightweight.
+
+## Cursor skills symlink
+
+`.cursor/skills` is a **directory symlink** to `../.claude/skills` (Git mode
+`120000`). Edit skills only under **`.claude/skills/`**; Cursor reads them via
+`/start`, `/qa`, etc.
+
+### 1. Verify after clone
+
+**Windows (PowerShell):**
+
+```powershell
+Get-Item .cursor/skills | Select-Object LinkType, Target
+```
+
+You should see `SymbolicLink` and `..\.claude\skills` (or `../.claude/skills`).
+
+**macOS / Linux:**
+
+```bash
+ls -la .cursor/skills
+```
+
+The line should start with `l` (symlink) and point at `../.claude/skills`.
+
+### 2. Enable symlinks in Git (Windows)
+
+Without this, Git may check out the link as a **plain text file** instead of a
+directory link.
+
+```powershell
+git config core.symlinks true
+```
+
+Then re-checkout the path (step 3) or clone again.
+
+### 3. Fix a broken or missing link
+
+From the **repository root**, remove the bad entry, then restore or recreate.
+
+**Windows — restore from Git (after `core.symlinks true`):**
+
+```powershell
+Remove-Item -Recurse -Force .cursor/skills
+git checkout HEAD -- .cursor/skills
+```
+
+**Windows — create manually (Developer Mode *or* elevated shell):**
+
+```powershell
+New-Item -ItemType Directory -Path .cursor -Force | Out-Null
+Set-Location .cursor
+cmd /c "mklink /D skills ..\.claude\skills"
+Set-Location ..
+```
+
+**macOS / Linux — create manually:**
+
+```bash
+mkdir -p .cursor
+ln -sfn ../.claude/skills .cursor/skills
+```
+
+### 4. If `mklink` / `ln` fails (privileges)
+
+On Windows, turn on **Settings → System → For developers → Developer Mode** (or
+run the terminal **as Administrator**), then repeat step 3.
+
+### 5. OneDrive / cloud sync
+
+Repos under OneDrive can be fussy with symlinks. If the link keeps breaking,
+keep the repo on a normal disk or recreate the link after sync (step 3).
+
+### Other CLI tools (e.g. Codex CLI)
+
+There is no separate skills folder. Point your tool at **`CLAUDE.md`** and the
+files under **`.claude/skills/<name>/SKILL.md`**, or add a short root
+**`AGENTS.md`** that references those paths (see OpenAI’s
+[Codex `AGENTS.md` guide](https://developers.openai.com/codex/guides/agents-md)).
 
 ## How this differs from huge “game studio” repos
 
@@ -49,7 +131,8 @@ solo dev or jam team.
 ## Quick start
 
 1. Copy this folder or use it as a **GitHub template** (when published).
-2. Open **Claude Code** in the project (or Cursor with project rules pointing here).
+2. Open **Claude Code** or **Cursor** in the project (skills load from
+   **`.cursor/skills`** → **`.claude/skills`**).
 3. Run **`/start`** to detect state and write **`design/pillars.md`**.
 4. Use **`/brainstorm`**, **`/design-feature`**, **`/implement-feature`** in
    that order when building something new.
