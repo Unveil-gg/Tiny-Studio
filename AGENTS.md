@@ -1,19 +1,12 @@
 # Tiny Studio — agent bootstrap
 
-This file stays **short** on purpose. Tools that read **`AGENTS.md`** (for
-example OpenAI **Codex CLI**) pick up pointers here without duplicating the
-full studio guide.
+Thin entry for tools that read **`AGENTS.md`** by default (e.g. **Codex CLI**).
+Full guide: **`CLAUDE.md`**.
 
-## Read next
+## Pointers
 
-- **`CLAUDE.md`** — operating guide, principles, slash workflows, agents.
-- **`.claude/skills/<name>/SKILL.md`** — workflows: `start`, `brainstorm`,
-  `design-feature`, `implement-feature`, `art-direction`, `playtest-review`,
-  `qa`, `ship-check`. Open the file that matches the task.
-- **`.claude/agents/*.md`** — role cards for subagent or task flows.
+- **`.claude/skills/<name>/SKILL.md`** — workflows (names match `/` commands in
+  `CLAUDE.md`).
+- **`.claude/agents/*.md`** — subagent role cards.
 
-## Cursor only
-
-**`.cursor/skills`** is a **symlink** to **`.claude/skills`** for Cursor. Codex
-and other CLIs do not use that path for discovery; use **`.claude/skills`**
-directly.
+Clone / symlink help: **`README.md`**.

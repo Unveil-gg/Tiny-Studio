@@ -4,18 +4,15 @@
 
 ## Claude / Cursor operating guide
 
-This repository is a **small-team AI game studio**: three collaborators (developer,
-designer, artist), one human creative lead (you). It is intentionally **not** a
-large multi-agent pipeline.
+Three AI collaborators (developer, designer, artist) and you — not a large
+multi-agent pipeline.
 
 ## What this is
 
-- **3 agents** in `.claude/agents/`: implementation, design, art — peers, not a
-  corporate ladder.
-- **8 slash workflows** in `.claude/skills/`: onboarding, ideation, feature design
-  and build, art direction, review, QA, ship check.
-- **Light docs** in `.claude/docs/`: philosophy, how we work together, how QA
-  uses evidence.
+- **Agents:** `.claude/agents/` — three role cards for subagent flows.
+- **Skills:** `.claude/skills/` — slash workflows (see **How to work here**).
+- **Optional depth:** `.claude/docs/` — short summaries in **Opt-in docs**;
+  open files when you want the full read.
 
 ## Principles (read before coding)
 
@@ -26,56 +23,52 @@ large multi-agent pipeline.
 5. **Soul over volume** — one memorable beat beats ten forgettable ones.
 6. **You decide** — AI proposes, critiques, and collaborates; **you** approve.
 
+## Opt-in docs (human-first; `@` when useful)
+
+| Path | In brief |
+|------|----------|
+| `.claude/docs/philosophy.md` | Template rationale; what we kept vs refused; decisions; taste. |
+| `.claude/docs/collaboration.md` | Peer roles; who leads when; disagreement → options for you. |
+| `.claude/docs/qa-evidence.md` | `/qa` ladder: run → logs → captures; label guesses honestly. |
+
 ## How to work here
 
-1. Run **`/start`** when joining the project or resetting direction.
-2. Use **`/brainstorm`** for early concepts; **`/design-feature`** before big work;
+1. **`/start`** — join or reset direction.
+2. **`/brainstorm`** — early concepts; **`/design-feature`** before big work;
    **`/implement-feature`** to build in small steps.
-3. **`/art-direction`** when look, UI, or mood needs a coherent pass.
-4. **`/playtest-review`** for cross-discipline feedback on a slice or build.
-5. **`/qa`** for evidence-based quality (run, log, capture when possible).
-6. **`/ship-check`** before sharing or releasing a milestone.
+3. **`/art-direction`** — coherent look, UI, mood.
+4. **`/playtest-review`** — cross-discipline feedback on a slice or build.
+5. **`/qa`** — evidence-based quality; prefer running and logs (see table
+   above → `.claude/docs/qa-evidence.md`).
+6. **`/ship-check`** — before sharing or shipping a milestone.
 
 ## Invoking agents
 
 Use the **Task tool** or your client’s subagent flow with:
 
-| Agent            | File                     | Lead when…                          |
-|------------------|--------------------------|-------------------------------------|
-| game-developer   | `.claude/agents/game-developer.md`   | Code, engine, tools, performance    |
-| game-designer    | `.claude/agents/game-designer.md`    | Loops, scope, motivation, feel      |
-| game-artist      | `.claude/agents/game-artist.md`      | Look, UI tone, readability, motion  |
-
-**Collaboration:** Any agent may **constructively** challenge another. Disagreements
-are stated clearly **to you**; you resolve.
-
-## Project artifacts (optional but useful)
-
-| Path                 | Purpose                                      |
-|----------------------|----------------------------------------------|
-| `design/pillars.md`  | Creative pillars, references, non-goals      |
-| `design/features/`   | Short feature specs from `/design-feature`   |
-| `design/art-notes.md`| Art direction snapshots from `/art-direction`|
-
-Create these as needed; the template does not require a heavy doc tree.
-
-## QA and evidence
+| Agent | File | Lead when… |
+|-------|------|-------------|
+| game-developer | `.claude/agents/game-developer.md` | Code, engine, tools, performance |
+| game-designer | `.claude/agents/game-designer.md` | Loops, scope, motivation, feel |
+| game-artist | `.claude/agents/game-artist.md` | Look, UI tone, readability, motion |
 
 `/qa` prioritizes **observable truth**: run the game or tests, read logs, capture
 screens or GIFs when the environment allows. If not, use what exists (build
 output, user captures). See `.claude/docs/qa-evidence.md`.
 
-## Cursor compatibility
+## Project artifacts (optional)
 
-Skills live under `.claude/skills/`. This repo includes **`.cursor/skills` →
-`.claude/skills`** (symlink) so Cursor project skills stay a **single source of
-truth**. If the link is missing or wrong after clone, see `README.md` (Cursor
-skills symlink).
+| Path | Purpose |
+|------|---------|
+| `design/pillars.md` | Pillars, references, non-goals |
+| `design/features/` | Feature specs from `/design-feature` |
+| `design/art-notes.md` | Art snapshots from `/art-direction` |
 
-## Codex CLI
+## Tooling notes
 
-Root **`AGENTS.md`** is the thin bootstrap Codex reads by default; it points here
-and into **`.claude/skills/`**.
+- **Cursor:** `.cursor/skills` → `.claude/skills` (symlink). Wrong link after
+  clone → **`README.md`**.
+- **Codex CLI** (and similar): default read is **`AGENTS.md`**; it points here.
 
 ---
 
