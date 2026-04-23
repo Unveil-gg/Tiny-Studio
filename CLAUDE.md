@@ -30,6 +30,7 @@ multi-agent pipeline.
 | `.claude/docs/philosophy.md` | Template rationale; what we kept vs refused; decisions; taste. |
 | `.claude/docs/collaboration.md` | Peer roles; who leads when; disagreement → options for you. |
 | `.claude/docs/qa-evidence.md` | `/qa` ladder: run → logs → captures; label guesses honestly. |
+| `.claude/docs/vision-setup.md` | Optional vision MCP: screen snapshots (`take_game_snapshot`) for vibe/UI checks. |
 
 ## How to work here
 

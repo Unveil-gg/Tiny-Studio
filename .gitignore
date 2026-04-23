@@ -23,3 +23,6 @@ obj/
 # Optional local captures from QA
 qa-captures/
 *.tmp
+
+# Tiny Studio vision MCP snapshots (local only)
+.tiny_studio/snapshots/
