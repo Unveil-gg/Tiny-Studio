@@ -9,7 +9,7 @@ Full guide: **`CLAUDE.md`**.
   `CLAUDE.md`).
 - **`.claude/agents/*.md`** — subagent role cards.
 
-Clone / symlink help: **`README.md`**.
+Clone / symlink help: **`TROUBLESHOOTING.md`**.
 
 Optional **screen snapshot MCP** (Codex / Cursor / Claude Code): see
 **`.claude/docs/vision-setup.md`** (`take_game_snapshot`, `prune_snapshots`).

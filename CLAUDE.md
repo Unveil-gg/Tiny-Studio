@@ -68,7 +68,7 @@ output, user captures). See `.claude/docs/qa-evidence.md`.
 ## Tooling notes
 
 - **Cursor:** `.cursor/skills` → `.claude/skills` (symlink). Wrong link after
-  clone → **`README.md`**.
+  clone → **`TROUBLESHOOTING.md`**.
 - **Codex CLI** (and similar): default read is **`AGENTS.md`**; it points here.
 
 ---
