@@ -24,7 +24,8 @@ studio** — not a AAA corporation. Workflows live in **`.claude/skills/`**;
 - **`.claude/skills/`** — **eight** workflows (`/start`, `/brainstorm`, …).
 - **`.cursor/skills`** — symlink to **`.claude/skills/`** so Cursor stays in sync
   (**Cursor only** — see [Cursor symlink](#cursor-symlink-cursor-only)).
-- **`.claude/docs/`** — short philosophy, collaboration, and QA-evidence notes.
+- **`.claude/docs/`** — philosophy, collaboration, QA-evidence, and optional
+  **vision MCP** setup (`.claude/docs/vision-setup.md`).
 - **`.claude/settings.json`** — starter permission hints you can extend.
 
 There is **no** mandatory `src/`, engine, or engine-specific stack — add your game
