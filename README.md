@@ -7,6 +7,14 @@
   <p>
     <em>An indie game studio in your terminal or editor.</em>
   </p>
+  <p>
+    <a href="https://discord.gg/gaZ5XuPhz">
+      <img
+        src="https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white"
+        alt="Join us on Discord"
+      />
+    </a>
+  </p>
 </div>
 
 A **Claude Code**-, **Cursor**-, and **CLI**-friendly template for solo and tiny
