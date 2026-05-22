@@ -34,20 +34,15 @@ multi-agent pipeline.
 
 ## How to work here
 
-1. **`/start`** -- join or reset direction. Sets **studio mode** (`jam` or
-   `studio`) which scopes all other skills.
-2. **`/brainstorm`** -- early concepts; **`/proof-of-fun`** to gate before
-   building; **`/design-feature`** before big work;
-   **`/implement-feature`** to build in small steps.
-3. **`/art-direction`** -- coherent look, UI, mood.
-4. **`/playtest-review`** -- cross-discipline feedback on a slice or build.
-5. **`/qa`** -- evidence-based quality; regression table required; prefer
-   running and logs (see table above -> `.claude/docs/qa-evidence.md`).
-6. **`/ship-check`** -- before sharing or shipping a milestone.
-7. **`/retrospective`** -- after every ship-check; self-improvement loop.
-8. **`/cut`** -- explicit descope with memory; logged to the feature spec.
-9. **`/session-handoff`** -- end-of-session continuity; appends to
-   `design/session-log.md`.
+1. **`/start`** -- onboard; set studio mode (`jam` or `studio`).
+2. **`/brainstorm`** → **`/proof-of-fun`** → **`/design-feature`** → **`/implement-feature`**
+3. **`/art-direction`** -- look, UI, mood.
+4. **`/playtest-review`** -- all three voices on a slice.
+5. **`/qa`** -- evidence-first quality pass.
+6. **`/ship-check`** -- release readiness.
+7. **`/retrospective`** -- post-ship loop.
+8. **`/cut`** -- descope with memory.
+9. **`/session-handoff`** -- end-of-session continuity.
 
 ## Invoking agents
 
@@ -58,10 +53,6 @@ Use the **Task tool** or your client's subagent flow with:
 | game-developer | `.claude/agents/game-developer.md` | Code, engine, tools, performance |
 | game-designer | `.claude/agents/game-designer.md` | Loops, scope, motivation, feel |
 | game-artist | `.claude/agents/game-artist.md` | Look, UI tone, readability, motion |
-
-`/qa` prioritizes **observable truth**: run the game or tests, read logs, capture
-screens or GIFs when the environment allows. If not, use what exists (build
-output, user captures). See `.claude/docs/qa-evidence.md`.
 
 ## Project artifacts (optional)
 

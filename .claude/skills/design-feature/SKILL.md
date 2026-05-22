@@ -1,9 +1,6 @@
 ---
 name: design-feature
-description: >-
-  Leads feature design with game-designer perspective; pulls in developer and
-  artist angles for feasibility and readability. Produces a concise feature spec.
-  Use before implementing a meaningful gameplay, UI, or content feature.
+description: Designer-led feature spec with dev+artist input. Use before implementing gameplay, UI, or content.
 ---
 
 # /design-feature -- Lean feature spec

@@ -1,9 +1,6 @@
 ---
 name: brainstorm
-description: >-
-  Shapes early game concepts: pillars, references, fantasy, player verbs,
-  emotional goals, and identity. Use when exploring ideas before or alongside
-  production work. Keeps output concise and playable-minded.
+description: Shapes early concepts — pillars, verbs, feel, identity. Concise and playable-minded.
 ---
 
 # /brainstorm — Concept shaping

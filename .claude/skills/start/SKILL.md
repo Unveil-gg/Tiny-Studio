@@ -1,9 +1,6 @@
 ---
 name: start
-description: >-
-  Onboards a game project: detects repo state, records engine/language/platform,
-  creative pillars, target feel, visual direction, scope level, and studio mode.
-  Use when beginning work, resetting direction, or adopting an existing codebase.
+description: Onboards a game project: engine, pillars, feel, scope, studio mode. Use at start or when resetting direction.
 ---
 
 # /start -- Project onboarding

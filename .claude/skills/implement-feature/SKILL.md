@@ -1,9 +1,6 @@
 ---
 name: implement-feature
-description: >-
-  Leads implementation with game-developer; verifies design intent and visual
-  implications before coding. Encourages small iterative builds. Use after a
-  feature is specified (or with explicit assumptions if spec is thin).
+description: Developer-led build in slices; verifies design/visual intent before coding. Use after feature is specified.
 ---
 
 # /implement-feature -- Build the thing

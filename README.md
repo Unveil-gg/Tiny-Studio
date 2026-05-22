@@ -60,11 +60,8 @@ where you like; the template stays lightweight.
    - **Cursor:** project skills come from **`.cursor/skills`** → **`.claude/skills`**
      (verify the symlink in [TROUBLESHOOTING.md](TROUBLESHOOTING.md), especially on
      **Windows**).
-   - **Codex CLI:** reads **`AGENTS.md`** by default; follow into **`CLAUDE.md`**
-     and skill files as needed. Codex **Agent Skills** are discovered under
-     **`.agents/skills`** at the repo root ([OpenAI: Agent Skills](https://developers.openai.com/codex/skills)) — not `.claude/skills`. To reuse these
-     workflows in Codex, copy or symlink skill folders there (same `SKILL.md`
-     layout).
+   - **Codex CLI:** reads **`AGENTS.md`** → **`CLAUDE.md`** → skill files.
+     Agent Skills live under `.agents/skills` ([docs](https://developers.openai.com/codex/skills)); copy or symlink `.claude/skills/<name>` there to reuse.
 3. Run **`/start`** (or your client’s equivalent) to detect state and write
    **`design/pillars.md`**.
 4. When building something new: **`/brainstorm`**, **`/design-feature`**,
