@@ -21,7 +21,7 @@ except ImportError as exc:  # pragma: no cover
 from core.assets.elevenlabs_gen import generate_audio
 from core.assets.gemini_gen import NANO_BANANA_MODELS, generate_2d
 from core.assets.tripo_gen import generate_3d_draft, generate_3d_refine
-from tools.orchestration.providers import ProviderStatus, check_all
+from core.assets.providers import ProviderStatus, check_all
 
 mcp = FastMCP(
     "tiny-assets",

@@ -3,8 +3,7 @@ name: vertical-slice
 description: >-
   Master orchestration for a playable vertical slice. Requires design/gdd.md
   (run /start first). Checks providers, gates paid calls at asset-plan
-  confirmation, runs generation skills, integrates, and playtests. No
-  framework dependency — pipeline.py is the optional automation layer.
+  confirmation, runs generation skills, integrates, and playtests.
 ---
 
 # /vertical-slice — Playable slice orchestration
@@ -26,17 +25,19 @@ Run `/start` if it does not.
 ### Stage 1 — Provider check
 
 Call MCP tool `check_asset_providers`, or run
-`python tools/orchestration/providers.py`:
+`python -m core.assets.providers`.
 
-| Provider    | Env var                         | Status if absent  |
+Report status for every provider. For each missing or unavailable provider,
+note which asset types will use placeholders. **Continue the pipeline** for
+any configured provider — one missing key must not block others.
+
+| Provider    | Env var                         | If absent         |
 |-------------|---------------------------------|-------------------|
-| ElevenLabs  | `ELEVENLABS_API_KEY`            | missing           |
-| Tripo AI    | `TRIPO_API_KEY`                 | missing           |
-| Nano Banana | `GEMINI_API_KEY` / `GOOGLE_API_KEY` | missing       |
-| Blender     | `blender --version` → 0         | unavailable       |
-| Snapshots   | `take_game_snapshot` MCP        | unavailable       |
-
-For each missing provider: note which asset type uses a placeholder.
+| ElevenLabs  | `ELEVENLABS_API_KEY`            | audio placeholder |
+| Tripo AI    | `TRIPO_API_KEY`                 | 3D placeholder    |
+| Nano Banana | `GEMINI_API_KEY` / `GOOGLE_API_KEY` | 2D placeholder |
+| Blender     | `blender` in PATH               | skip post-process |
+| Snapshots   | `tiny-vision` MCP               | skip captures     |
 
 ---
 
@@ -78,15 +79,6 @@ Run `/qa` — check readability, missing assets, runtime issues, visual
 consistency with GDD art direction, and control feel.
 
 ---
-
-## Optional automation
-
-```
-python tools/orchestration/pipeline.py --project-root .
-```
-
-Runs Stages 1–2 checks and prints a status summary. Generation (Stage 3)
-is always driven by skill prompts, not automated code.
 
 ## Platform defaults
 

@@ -103,7 +103,7 @@ placeholder.
 ## 8. Local smoke test (no MCP)
 
 ```powershell
-python -c "from tools.orchestration.providers import check_all; print([(r.name, r.status.value) for r in check_all()])"
+python -m core.assets.providers
 ```
 
 With keys set, test one provider:

@@ -26,11 +26,10 @@ section. If missing, stop and run `/start` first.
    - `## Enemy and obstacle design` — 3D/2D asset count hints
 
 2. **Check providers** via MCP `check_asset_providers` or:
-   `python tools/orchestration/providers.py`
-   - ElevenLabs: `ELEVENLABS_API_KEY` → configured / missing
-   - Tripo AI: `TRIPO_API_KEY` → configured / missing
-   - Nano Banana: `GEMINI_API_KEY` or `GOOGLE_API_KEY` → configured / missing
-   - Blender: `blender --version` → installed / unavailable
+   `python -m core.assets.providers`
+   Report each provider's status. Missing or unavailable providers use
+   placeholders for their asset types — **do not block** the plan or
+   generation for providers that are configured.
 
 3. **Draft** the asset budget using the template below. Apply the
    stinginess rule for every asset:
@@ -39,9 +38,10 @@ section. If missing, stop and run `/start` first.
    When in doubt, mark it `placeholder`.
 
 4. **Present** to the developer:
-   - Total estimated external API calls
+   - Total estimated external API calls (configured providers only)
    - Which providers would be called
    - Asset count vs placeholder count
+   - Which providers are missing and will fall back to placeholders
 
 5. **Wait for explicit confirmation** before writing. Silence is not approval.
 
@@ -80,6 +80,6 @@ _Confirmed by developer: no_
 ## Do not
 
 - Call any paid provider before the developer confirms
+- Block the plan because one provider is missing
 - Add environment filler not in the GDD slice scope
 - Generate variants by default — one canonical asset per slot
-- Block if a provider is missing — mark affected assets as `placeholder`

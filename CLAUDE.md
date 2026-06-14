@@ -58,9 +58,9 @@ art direction, and generation. Run it first.
 13. **`/gen-3d`** -- generate 3D via Tripo (`gen_3d_draft` / `gen_3d_refine` MCP).
 14. **`/gen-2d`** -- generate 2D via Nano Banana (`gen_2d` MCP); verify against GDD.
 15. **`/vertical-slice`** -- master orchestration: provider check → asset plan
-    confirmation → generation → integration → `/qa`. Runs
-    `tools/orchestration/pipeline.py` for a status summary when Python is
-    available.
+    confirmation → generation → integration → `/qa`. Provider checks are
+    non-blocking — missing keys use placeholders; configured providers
+    continue.
 
 ## Invoking agents
 
@@ -86,8 +86,7 @@ Use the **Task tool** or your client's subagent flow with:
 | `assets/audio/` | Generated audio assets |
 | `assets/3d/` | Generated 3D model assets |
 | `assets/2d/` | Generated 2D assets |
-| `tools/orchestration/` | Pipeline checker (pure Python, no framework) |
-| `core/assets/` | Asset generation MCP (`tiny-assets`) |
+| `core/assets/` | Asset generation MCP (`tiny-assets`) + provider checks |
 
 ## Tooling notes
 

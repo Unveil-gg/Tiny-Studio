@@ -1,10 +1,10 @@
-"""Provider availability checks for the Tiny Studio pipeline.
+"""Provider availability checks for Tiny Studio asset generation.
 
 Returns sanitized status strings only.
 Never reads, prints, logs, summarizes, or passes raw API key values.
 
 Usage:
-    python tools/orchestration/providers.py
+    python -m core.assets.providers
 """
 
 from __future__ import annotations
@@ -93,11 +93,7 @@ def _check_local_tool(name: str, command: str) -> ProviderResult:
 
 
 def _check_snapshot_tool() -> ProviderResult:
-    """Check whether the take_game_snapshot MCP tool is active.
-
-    The MCP tool is injected at runtime. Downstream environments that
-    enable it should set TINY_STUDIO_SNAPSHOT_AVAILABLE=1.
-    """
+    """Check whether the take_game_snapshot MCP tool is active."""
     available = os.environ.get("TINY_STUDIO_SNAPSHOT_AVAILABLE", "").lower()
     if available in ("1", "true", "yes"):
         return ProviderResult(
@@ -107,16 +103,13 @@ def _check_snapshot_tool() -> ProviderResult:
     return ProviderResult(
         name="Snapshot tools",
         status=ProviderStatus.UNAVAILABLE,
-        note="Set TINY_STUDIO_SNAPSHOT_AVAILABLE=1 when take_game_snapshot MCP is active.",
+        note="Enable tiny-vision MCP or set TINY_STUDIO_SNAPSHOT_AVAILABLE=1.",
     )
 
 
 def check_all() -> list[ProviderResult]:
-    """Return sanitized availability for all known providers.
-
-    No API key values are returned or stored.
-    """
-    _USED_BY: dict[str, str] = {
+    """Return sanitized availability for all known providers."""
+    used_by: dict[str, str] = {
         "ElevenLabs": "/gen-audio",
         "Tripo AI": "/gen-3d",
         "Nano Banana": "/gen-2d",
@@ -128,20 +121,20 @@ def check_all() -> list[ProviderResult]:
 
     for name, env_var in _API_PROVIDERS.items():
         r = _check_api_provider(name, env_var)
-        r.used_by = _USED_BY.get(name, "")
+        r.used_by = used_by.get(name, "")
         results.append(r)
 
     r = _check_gemini_provider()
-    r.used_by = _USED_BY.get("Nano Banana", "")
+    r.used_by = used_by.get("Nano Banana", "")
     results.append(r)
 
     for name, command in _LOCAL_TOOLS.items():
         r = _check_local_tool(name, command)
-        r.used_by = _USED_BY.get(name, "")
+        r.used_by = used_by.get(name, "")
         results.append(r)
 
     r = _check_snapshot_tool()
-    r.used_by = _USED_BY.get("Snapshot tools", "")
+    r.used_by = used_by.get("Snapshot tools", "")
     results.append(r)
 
     return results
@@ -159,7 +152,7 @@ def print_status_table(results: list[ProviderResult]) -> None:
     unavailable = [r for r in results if r.status == ProviderStatus.UNAVAILABLE]
 
     if missing or unavailable:
-        print("Affected assets will use placeholders:")
+        print("Affected assets will use placeholders; other providers continue:")
         for r in missing + unavailable:
             print(f"  · {r.name}: {r.note or 'placeholder will be used'}")
         print()
