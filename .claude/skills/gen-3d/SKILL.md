@@ -1,77 +1,59 @@
 ---
 name: gen-3d
 description: >-
-  Generates 3D model assets using Tripo AI with optional Blender
-  post-processing. Verifies scale, orientation, poly count, materials, and
-  export format before accepting. Falls back to placeholder if provider is
-  missing or output is broken. Only runs after /asset-plan is confirmed.
+  Generates 3D models via tiny-assets MCP tools gen_3d_draft and
+  gen_3d_refine (Tripo AI). Draft first; refine only after developer
+  approval. Falls back to placeholder when missing or broken. Only runs
+  after /asset-plan is confirmed.
 ---
 
 # /gen-3d — 3D model generation
 
 ## Lead
 
-**game-developer** runs generation and Blender post-processing.
-**game-artist** reviews style, proportion, and usability against the GDD.
+**game-developer** runs MCP tools. **game-artist** reviews style and
+usability against the GDD.
 
 ## Preconditions
 
 1. `design/asset-plan.md` must exist with `Confirmed by developer: yes`.
-2. The asset must be listed in the plan as requiring Tripo AI generation.
+2. The asset must be listed as Tripo AI generation (not `placeholder`).
+3. **`tiny-assets` MCP** must be enabled (see `.claude/docs/assets-setup.md`).
 
-## Steps
+## Workflow
 
-1. **Read** `design/gdd.md`:
-   - `## Art direction` → character proportions, environment style,
-     texture/material guidelines, shape language
-   - `## Enemy and obstacle design` → how this model is used in gameplay
+### Step 1 — Draft (always)
 
-2. **Check provider**: if `TRIPO_API_KEY` is not set, create a labeled
-   placeholder mesh (primitive geometry with named material) and log the
-   fallback.
+1. **Read** `design/gdd.md` — art direction + enemy/obstacle usage.
+2. **Call** `gen_3d_draft` with:
+   - `prompt` — GDD shape language, proportions, explicit avoids
+   - `purpose` — asset name from the plan
+   - `category` — e.g. `characters`, `props`, `environment`
+   - `smart_low_poly` — `true` by default for game assets
+   - `style` — optional modifier (`stylized`, etc.)
+3. **Save** the returned `task_id` — required for refine.
+4. **Verify** draft GLB: non-empty file, readable silhouette intent.
+5. If draft fails → log placeholder, update asset plan, continue.
 
-3. **Generate** via Tripo AI. The `TRIPO_API_KEY` is read from the
-   environment. Never print or log its value. The prompt must reference
-   GDD art direction anchors (shape language, proportions, explicit avoids).
+### Step 2 — Refine (developer-gated)
 
-4. **Optional Blender post-process** (if `blender` is in PATH):
-   - Normalize scale to project units
-   - Fix orientation (Z-up, forward −Y)
-   - Remove loose geometry
-   - Export to `.glb` (default project format)
+Only when the asset plan explicitly lists **refine** for this asset
+and the developer approved the draft:
 
-5. **Verify** output before accepting:
-   - Scale within expected bounds for the asset's role
-   - Orientation correct (no accidental rotations or flips)
-   - Polygon count within GDD art direction budget
-   - Materials present and named per GDD conventions
-   - Export format opens without errors
-   - Style consistent with GDD shape language and proportions
+1. **Confirm** with the developer before calling (refine costs ~40–50
+   credits).
+2. **Call** `gen_3d_refine` with the draft `task_id`.
+3. **Verify** refined GLB same as draft checks plus poly/material sanity.
+4. If refine fails → keep draft GLB or placeholder; log reason.
 
-6. **Reject** if verification fails — retry once with a tighter prompt.
-   If the second attempt also fails, fall back to placeholder and log reason.
+## Credit awareness
 
-7. **Place** in `assets/3d/<category>/` and write a metadata sidecar:
-
-   ```json
-   {
-     "name": "",
-     "provider": "tripo | placeholder",
-     "poly_count": 0,
-     "format": "glb",
-     "blender_processed": false,
-     "purpose": "",
-     "generated_at": ""
-   }
-   ```
-
-8. **Update** `design/asset-plan.md` — mark the asset row as `generated`
-   or `placeholder`.
+- Draft: ~10–20 credits, ~10–15s
+- Refine: ~40–50 credits, longer wait (MCP timeout ≥ 180s)
 
 ## Do not
 
-- Generate LOD variants unless the GDD explicitly requires them
-- Accept assets with broken normals, missing materials, or inverted faces
-- Skip Blender normalization when scale is obviously wrong
-- Print or log the API key value at any point
-- Block the pipeline if this one asset fails — log and continue
+- Call `gen_3d_refine` without a succeeded draft `task_id`
+- Refine without explicit plan approval
+- Retry `banned` tasks — change the prompt instead
+- Block the pipeline on a single asset failure

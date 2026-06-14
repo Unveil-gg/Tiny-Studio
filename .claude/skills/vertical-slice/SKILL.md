@@ -25,15 +25,16 @@ Run `/start` if it does not.
 
 ### Stage 1 — Provider check
 
-Run `python tools/orchestration/providers.py` or check manually:
+Call MCP tool `check_asset_providers`, or run
+`python tools/orchestration/providers.py`:
 
-| Provider    | Env var / command          | Status if absent  |
-|-------------|----------------------------|-------------------|
-| ElevenLabs  | `ELEVENLABS_API_KEY`       | missing           |
-| Tripo AI    | `TRIPO_API_KEY`            | missing           |
-| Nano Banana | `GOOGLE_API_KEY`           | missing           |
-| Blender     | `blender --version` → 0    | unavailable       |
-| Snapshots   | `take_game_snapshot` MCP   | unavailable       |
+| Provider    | Env var                         | Status if absent  |
+|-------------|---------------------------------|-------------------|
+| ElevenLabs  | `ELEVENLABS_API_KEY`            | missing           |
+| Tripo AI    | `TRIPO_API_KEY`                 | missing           |
+| Nano Banana | `GEMINI_API_KEY` / `GOOGLE_API_KEY` | missing       |
+| Blender     | `blender --version` → 0         | unavailable       |
+| Snapshots   | `take_game_snapshot` MCP        | unavailable       |
 
 For each missing provider: note which asset type uses a placeholder.
 
@@ -50,10 +51,11 @@ A "go" or "ok" counts. Silence does not.
 
 ### Stage 3 — Asset generation
 
+Requires **`tiny-assets` MCP** (see `.claude/docs/assets-setup.md`).
 For each asset in the confirmed plan:
-- Audio → `/gen-audio`
-- 3D models → `/gen-3d`
-- 2D assets → `/gen-2d`
+- Audio → `/gen-audio` → `gen_audio`
+- 3D models → `/gen-3d` → `gen_3d_draft` (optional `gen_3d_refine`)
+- 2D assets → `/gen-2d` → `gen_2d`
 
 If a provider is unavailable, create a placeholder and continue — do not
 stop the pipeline. Log each failure.

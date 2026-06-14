@@ -27,7 +27,6 @@ class ProviderStatus(str, Enum):
 _API_PROVIDERS: dict[str, str] = {
     "ElevenLabs": "ELEVENLABS_API_KEY",
     "Tripo AI": "TRIPO_API_KEY",
-    "Nano Banana": "GOOGLE_API_KEY",
 }
 
 # Maps display name → CLI command to probe
@@ -44,6 +43,17 @@ class ProviderResult:
     status: ProviderStatus
     note: str = ""
     used_by: str = ""
+
+
+def _check_gemini_provider() -> ProviderResult:
+    """Check Gemini / Nano Banana key presence (value never read)."""
+    if os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY"):
+        return ProviderResult(name="Nano Banana", status=ProviderStatus.CONFIGURED)
+    return ProviderResult(
+        name="Nano Banana",
+        status=ProviderStatus.MISSING,
+        note="Set GEMINI_API_KEY or GOOGLE_API_KEY to enable.",
+    )
 
 
 def _check_api_provider(name: str, env_var: str) -> ProviderResult:
@@ -120,6 +130,10 @@ def check_all() -> list[ProviderResult]:
         r = _check_api_provider(name, env_var)
         r.used_by = _USED_BY.get(name, "")
         results.append(r)
+
+    r = _check_gemini_provider()
+    r.used_by = _USED_BY.get("Nano Banana", "")
+    results.append(r)
 
     for name, command in _LOCAL_TOOLS.items():
         r = _check_local_tool(name, command)

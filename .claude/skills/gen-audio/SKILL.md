@@ -1,10 +1,10 @@
 ---
 name: gen-audio
 description: >-
-  Generates audio assets using ElevenLabs. Normalizes output and verifies
-  duration, loudness, looping suitability, and purpose before accepting.
-  Falls back to placeholder if provider is missing or output fails.
-  Only runs after /asset-plan is confirmed.
+  Generates audio assets via the tiny-assets MCP tool gen_audio (ElevenLabs).
+  Verifies duration and purpose before accepting. Falls back to placeholder
+  when the provider is missing or output fails. Only runs after /asset-plan
+  is confirmed.
 ---
 
 # /gen-audio — Audio generation
@@ -19,47 +19,32 @@ the GDD audio direction.
 1. `design/asset-plan.md` must exist with `Confirmed by developer: yes`.
 2. The asset must be listed in the plan as requiring generation (not
    already marked `placeholder`).
+3. **`tiny-assets` MCP** must be enabled (see `.claude/docs/assets-setup.md`).
 
 ## Steps
 
-1. **Read** `design/gdd.md` → `## Art direction` → `### Audio direction`
-   (SFX palette, music genre anchor, dry/wet balance).
-2. **Read** `design/asset-plan.md` → confirm this asset is approved and
-   ElevenLabs is listed as its provider.
-3. **Check provider**: if `ELEVENLABS_API_KEY` is not set, skip generation,
-   create a placeholder (labeled silent file or tone stub), and log the
-   fallback. Never attempt to call the API when the key is absent.
-4. **Generate** via ElevenLabs API. The `ELEVENLABS_API_KEY` is read from
-   the environment by the API client. Never print or log its value.
-5. **Verify** output before accepting:
-   - Duration within expected range for its intended use
-   - Loudness normalized (target −14 LUFS or project standard)
-   - Loop point clean if flagged as looping
-   - No clipping, pops, DC offset, or excessive silence
-   - Consistent with GDD audio direction
-6. **Reject** if any check fails — retry once with a refined prompt. If the
-   second attempt also fails, fall back to placeholder and log the reason.
-7. **Place** in `assets/audio/<category>/` and write a metadata sidecar:
-
-   ```json
-   {
-     "name": "",
-     "provider": "elevenlabs | placeholder",
-     "duration_s": 0,
-     "lufs": 0,
-     "loops": false,
-     "purpose": "",
-     "generated_at": ""
-   }
-   ```
-
-8. **Update** `design/asset-plan.md` — mark the asset row as `generated`
-   or `placeholder`.
+1. **Read** `design/gdd.md` → `## Art direction` → `### Audio direction`.
+2. **Read** `design/asset-plan.md` → confirm this asset is approved.
+3. **Call** MCP tool `gen_audio` with:
+   - `prompt` — aligned with GDD audio direction
+   - `purpose` — asset name from the plan
+   - `category` — subfolder (e.g. `sfx`, `music`, `ui`)
+   - `loops` — true when the plan marks a looping asset
+   - `duration_target_s` — when the plan specifies length (0 = auto)
+4. **Inspect** the tool result. If `error` is non-empty and
+   `provider` is `placeholder`, log and continue — do not block.
+5. **Verify** before accepting (agent judgment, not the tool):
+   - Duration suitable for intended use
+   - No obvious clipping or silence-only output
+   - Matches GDD audio direction
+6. **Reject** if checks fail — call `gen_audio` once more with a tighter
+   prompt. If the second attempt fails, keep the placeholder and log why.
+7. **Update** `design/asset-plan.md` — mark the row `generated` or
+   `placeholder`.
 
 ## Do not
 
-- Call ElevenLabs without a confirmed asset plan
-- Accept clipped or obviously broken output
-- Generate variants unless explicitly listed in the asset plan
-- Print or log the API key value at any point
-- Block the pipeline if this one asset fails — log and continue
+- Call `gen_audio` without a confirmed asset plan
+- Print or log API key values
+- Generate variants unless listed in the asset plan
+- Block the pipeline if this one asset fails

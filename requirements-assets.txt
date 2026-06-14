@@ -1,0 +1,7 @@
+# Asset generation MCP (install in a venv: pip install -r requirements-assets.txt)
+mcp>=1.4.0
+elevenlabs>=1.50.0
+tripo3d>=0.4.0
+google-genai>=1.0.0
+Pillow>=10.0.0
+mutagen>=1.47.0

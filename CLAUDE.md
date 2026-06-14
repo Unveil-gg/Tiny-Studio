@@ -31,6 +31,7 @@ multi-agent pipeline.
 | `.claude/docs/collaboration.md` | Peer roles; who leads when; disagreement -> options for you. |
 | `.claude/docs/qa-evidence.md` | `/qa` ladder: run -> logs -> captures; label guesses honestly. |
 | `.claude/docs/vision-setup.md` | Optional vision MCP: screen snapshots (`take_game_snapshot`) for vibe/UI checks. |
+| `.claude/docs/assets-setup.md` | Asset MCP (`tiny-assets`): `gen_audio`, `gen_2d`, `gen_3d_draft`, `gen_3d_refine`. |
 
 ## How to work here
 
@@ -53,11 +54,9 @@ art direction, and generation. Run it first.
     Use when specific sections are thin or the design has shifted.
 11. **`/asset-plan`** -- minimal asset budget. Presents estimated API calls
     and waits for your confirmation before any paid provider is used.
-12. **`/gen-audio`** -- generate audio via ElevenLabs; verify before accepting.
-13. **`/gen-3d`** -- generate 3D models via Tripo AI; optional Blender
-    post-process; verify before accepting.
-14. **`/gen-2d`** -- generate 2D assets via Nano Banana (Google AI Studio);
-    verify against GDD art direction before accepting.
+12. **`/gen-audio`** -- generate audio via ElevenLabs (`gen_audio` MCP); verify before accepting.
+13. **`/gen-3d`** -- generate 3D via Tripo (`gen_3d_draft` / `gen_3d_refine` MCP).
+14. **`/gen-2d`** -- generate 2D via Nano Banana (`gen_2d` MCP); verify against GDD.
 15. **`/vertical-slice`** -- master orchestration: provider check → asset plan
     confirmation → generation → integration → `/qa`. Runs
     `tools/orchestration/pipeline.py` for a status summary when Python is
@@ -88,11 +87,13 @@ Use the **Task tool** or your client's subagent flow with:
 | `assets/3d/` | Generated 3D model assets |
 | `assets/2d/` | Generated 2D assets |
 | `tools/orchestration/` | Pipeline checker (pure Python, no framework) |
+| `core/assets/` | Asset generation MCP (`tiny-assets`) |
 
 ## Tooling notes
 
 - **Cursor:** `.cursor/skills` -> `.claude/skills` (symlink). Wrong link after
   clone -> **`TROUBLESHOOTING.md`**.
+- **Asset MCP:** `tiny-assets` — see **`.claude/docs/assets-setup.md`**.
 - **Codex CLI** (and similar): default read is **`AGENTS.md`**; it points here.
 
 ---

@@ -26,3 +26,9 @@ qa-captures/
 
 # Tiny Studio vision MCP snapshots (local only)
 .tiny_studio/snapshots/
+
+# Generated game assets (local; logo.png at repo root assets/ is kept)
+assets/audio/
+assets/2d/
+assets/3d/
+!assets/logo.png

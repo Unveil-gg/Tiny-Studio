@@ -25,13 +25,12 @@ section. If missing, stop and run `/start` first.
    - `## Art direction` — style, materials, audio direction
    - `## Enemy and obstacle design` — 3D/2D asset count hints
 
-2. **Check providers** (inline — do not call the check-providers skill):
-   - ElevenLabs: `ELEVENLABS_API_KEY` env var set? → configured / missing
-   - Tripo AI: `TRIPO_API_KEY` env var set? → configured / missing
-   - Nano Banana: `GOOGLE_API_KEY` env var set? → configured / missing
-   - Blender: `blender --version` exits 0? → installed / unavailable
-
-   Or run: `python tools/orchestration/providers.py`
+2. **Check providers** via MCP `check_asset_providers` or:
+   `python tools/orchestration/providers.py`
+   - ElevenLabs: `ELEVENLABS_API_KEY` → configured / missing
+   - Tripo AI: `TRIPO_API_KEY` → configured / missing
+   - Nano Banana: `GEMINI_API_KEY` or `GOOGLE_API_KEY` → configured / missing
+   - Blender: `blender --version` → installed / unavailable
 
 3. **Draft** the asset budget using the template below. Apply the
    stinginess rule for every asset:
