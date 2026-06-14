@@ -14,6 +14,12 @@ skills:
   - qa
   - ship-check
   - playtest-review
+  - check-providers
+  - gen-gdd
+  - asset-plan
+  - gen-audio
+  - gen-3d
+  - vertical-slice
 memory: project
 ---
 

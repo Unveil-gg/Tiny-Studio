@@ -14,6 +14,7 @@ skills:
   - design-feature
   - playtest-review
   - ship-check
+  - gen-gdd
 memory: project
 ---
 
