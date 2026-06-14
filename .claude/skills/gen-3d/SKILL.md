@@ -12,43 +12,46 @@ description: >-
 ## Lead
 
 **game-developer** runs generation and Blender post-processing.
-**game-artist** reviews style, proportion, and usability against the ADD.
+**game-artist** reviews style, proportion, and usability against the GDD.
 
 ## Preconditions
 
 1. `design/asset-plan.md` must exist with `Confirmed by developer: yes`.
 2. The asset must be listed in the plan as requiring Tripo AI generation.
-3. Run `/check-providers` if Tripo AI or Blender status is unknown.
 
 ## Steps
 
-1. **Read** `design/add.md` → character proportions, environment style,
-   texture/material guidelines, shape language.
-2. **Read** `design/gdd.md` → how this model is used in gameplay (affects
-   LOD needs, collision shape expectations, animation requirements).
-3. **Check providers**: if Tripo AI is `missing`, create a labeled placeholder
-   mesh (primitive geometry with named material) and log the fallback.
-4. **Generate** via Tripo AI. The `TRIPO_API_KEY` is read from the environment
-   by the API client. Never print or log its value. The generation prompt
-   must reference ADD style anchors (shape language, proportions,
-   material style, explicit avoids).
-5. **Optional Blender post-process** (run if Blender is `installed` and the
-   asset needs normalization):
+1. **Read** `design/gdd.md`:
+   - `## Art direction` → character proportions, environment style,
+     texture/material guidelines, shape language
+   - `## Enemy and obstacle design` → how this model is used in gameplay
+
+2. **Check provider**: if `TRIPO_API_KEY` is not set, create a labeled
+   placeholder mesh (primitive geometry with named material) and log the
+   fallback.
+
+3. **Generate** via Tripo AI. The `TRIPO_API_KEY` is read from the
+   environment. Never print or log its value. The prompt must reference
+   GDD art direction anchors (shape language, proportions, explicit avoids).
+
+4. **Optional Blender post-process** (if `blender` is in PATH):
    - Normalize scale to project units
    - Fix orientation (Z-up, forward −Y)
-   - Remove loose geometry and duplicate verts
-   - Export to project format (`.glb` by default)
-6. **Verify** output before accepting:
+   - Remove loose geometry
+   - Export to `.glb` (default project format)
+
+5. **Verify** output before accepting:
    - Scale within expected bounds for the asset's role
    - Orientation correct (no accidental rotations or flips)
-   - Polygon count within ADD texture/poly budget
-   - Materials present and named per ADD conventions
+   - Polygon count within GDD art direction budget
+   - Materials present and named per GDD conventions
    - Export format opens without errors
-   - Style matches ADD shape language and proportions
-7. **Reject** if verification fails — retry once with a tighter prompt. If
-   the second attempt also fails, fall back to placeholder and log the reason.
-8. **Place** verified asset in `assets/3d/<category>/` and write a metadata
-   sidecar:
+   - Style consistent with GDD shape language and proportions
+
+6. **Reject** if verification fails — retry once with a tighter prompt.
+   If the second attempt also fails, fall back to placeholder and log reason.
+
+7. **Place** in `assets/3d/<category>/` and write a metadata sidecar:
 
    ```json
    {
@@ -62,7 +65,7 @@ description: >-
    }
    ```
 
-9. **Update** `design/asset-plan.md` — mark the asset row as `generated`
+8. **Update** `design/asset-plan.md` — mark the asset row as `generated`
    or `placeholder`.
 
 ## Do not

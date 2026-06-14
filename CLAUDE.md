@@ -46,23 +46,22 @@ multi-agent pipeline.
 
 ### Asset generation (vertical slice)
 
-10. **`/check-providers`** -- sanitized status of ElevenLabs, Tripo AI,
-    Nano Banana, Blender, and snapshot tools. No key values ever printed.
-11. **`/gen-gdd`** -- create / update `design/gdd.md` (Game Design Document).
-    Run before any generation. Requires `/start` first.
-12. **`/gen-add`** -- create / update `design/add.md` (Art Direction Document).
-    Formal spec used by all generation skills. Run after `/gen-gdd`.
-13. **`/asset-plan`** -- minimal asset budget. Presents estimated API calls and
-    waits for your confirmation before any paid provider is used.
-14. **`/gen-audio`** -- generate audio via ElevenLabs; verify before accepting.
-15. **`/gen-3d`** -- generate 3D models via Tripo AI; optional Blender
+`/start` creates `design/gdd.md` — the single source of truth for design,
+art direction, and generation. Run it first.
+
+10. **`/gen-gdd`** -- deepen or restructure `design/gdd.md` after `/start`.
+    Use when specific sections are thin or the design has shifted.
+11. **`/asset-plan`** -- minimal asset budget. Presents estimated API calls
+    and waits for your confirmation before any paid provider is used.
+12. **`/gen-audio`** -- generate audio via ElevenLabs; verify before accepting.
+13. **`/gen-3d`** -- generate 3D models via Tripo AI; optional Blender
     post-process; verify before accepting.
-16. **`/gen-2d`** -- generate 2D assets via Nano Banana (Google AI Studio);
-    verify against ADD before accepting.
-17. **`/vertical-slice`** -- master orchestration: runs steps 11–16 in order,
-    gates paid calls at the asset-plan confirmation, then runs `/qa`.
-    Uses `tools/orchestration/workflow.py` (LangGraph) when Python is
-    available; falls back to manual skill sequence otherwise.
+14. **`/gen-2d`** -- generate 2D assets via Nano Banana (Google AI Studio);
+    verify against GDD art direction before accepting.
+15. **`/vertical-slice`** -- master orchestration: provider check → asset plan
+    confirmation → generation → integration → `/qa`. Runs
+    `tools/orchestration/pipeline.py` for a status summary when Python is
+    available.
 
 ## Invoking agents
 
@@ -78,18 +77,17 @@ Use the **Task tool** or your client's subagent flow with:
 
 | Path | Purpose |
 |------|---------|
-| `design/pillars.md` | Pillars, mode, references, non-goals |
+| `design/gdd.md` | Single source of truth — design + art direction (from `/start`) |
 | `design/features/` | Feature specs from `/design-feature` |
-| `design/art-notes.md` | Art snapshots from `/art-direction` |
-| `design/gdd.md` | Game Design Document from `/gen-gdd` |
-| `design/add.md` | Art Direction Document from `/gen-add` |
-| `design/asset-plan.md` | Asset budget and approval record from `/asset-plan` |
+| `design/art-notes.md` | Art scratchpad from `/art-direction` (pre-GDD or supplemental) |
+| `design/asset-plan.md` | Asset budget and approval record from `/asset-plan` (optional) |
+| `design/pillars.md` | Legacy — superseded by `gdd.md`; kept for backward compat |
 | `design/session-log.md` | Session handoffs from `/session-handoff` |
 | `design/retros.md` | Retrospectives from `/retrospective` |
 | `assets/audio/` | Generated audio assets |
 | `assets/3d/` | Generated 3D model assets |
 | `assets/2d/` | Generated 2D assets |
-| `tools/orchestration/` | LangGraph pipeline (optional Python layer) |
+| `tools/orchestration/` | Pipeline checker (pure Python, no framework) |
 
 ## Tooling notes
 

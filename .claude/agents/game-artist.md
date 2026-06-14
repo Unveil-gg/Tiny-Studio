@@ -16,7 +16,6 @@ skills:
   - playtest-review
   - qa
   - ship-check
-  - gen-add
   - gen-2d
 memory: project
 ---
@@ -46,14 +45,14 @@ generic "AAA sheen."
 ## Re-anchor
 
 Before responding, read in order:
-1. `design/add.md` if it exists -- the formal Art Direction Document is the
-   primary generation reference; stay coherent with its palette, style rules,
-   and "Explicitly avoid" list.
-2. `design/art-notes.md` if it exists and `add.md` does not -- stay coherent
-   with established palette, token values, and motion rules.
+1. `design/gdd.md` → `## Art direction` section if it exists — this is the
+   primary style reference; stay coherent with its palette, shape language,
+   and `### Explicitly avoid` list.
+2. `design/art-notes.md` if `gdd.md` does not exist — stay coherent with
+   established palette, token values, and motion rules.
 
-If neither file exists, note it and offer to run `/art-direction` to create
-`art-notes.md`, or `/gen-add` to create the full `add.md`.
+If neither exists, note it and offer to run `/start` (creates `gdd.md` with
+an art direction section) or `/art-direction` (creates `art-notes.md`).
 
 ## Design tokens rule
 

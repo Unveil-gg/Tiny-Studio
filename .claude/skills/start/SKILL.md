@@ -1,57 +1,128 @@
 ---
 name: start
-description: Onboards a game project: engine, pillars, feel, scope, studio mode. Use at start or when resetting direction.
+description: >-
+  Onboards a game project and produces design/gdd.md — the single source of
+  truth for design, art direction, and asset generation. Sets studio mode
+  (jam or studio). Use at project start or when resetting direction.
 ---
 
-# /start -- Project onboarding
+# /start — Project onboarding
 
 ## Goal
 
-Orient the **human + three agents** so every later command shares the same
-assumptions. Keep outputs **short and actionable**.
+Orient the human + three agents so every later command shares the same
+assumptions. Produce `design/gdd.md` as the single source of truth.
+Keep it a **conversation**, not a form.
 
 ## Steps
 
-1. **Scan the repo** (Read, Glob, Grep): presence of engine files (e.g. Godot
-   `project.godot`, Unity `ProjectSettings`, Unreal `.uproject`), `package.json`,
-   `Cargo.toml`, custom engine, etc.
-2. **Classify state**: empty / idea-only / prototype / active production /
-   unknown.
-3. **Interview the user** if anything critical is missing (engine, platform,
-   solo vs team size). One compact question block at a time.
-4. **Ask the Studio mode question** (required -- record the answer):
+1. **Scan the repo** (Read, Glob, Grep): engine files (`project.godot`,
+   `ProjectSettings`, `.uproject`, `package.json`, `Cargo.toml`, etc.),
+   existing `design/gdd.md` or `design/pillars.md`.
 
-   > "What's the studio mode for this project?
-   > - **jam** -- ship fast, one pillar, ugly ok
-   > - **studio** -- quality gates, refactor ok, perf matters"
+2. **Classify state**: empty / idea-only / prototype / active / unknown.
 
-   Record the answer under `## Mode` in `design/pillars.md`.
+3. **If `design/gdd.md` exists**: read it, summarize what's already there,
+   ask what has changed — do not start over.
 
-5. **Record** in `design/pillars.md` (create if absent) a **lean** snapshot:
+4. **Interview** (one compact block; infer what the repo already shows):
+   - Working title or codename?
+   - Engine, language, primary platform?
+   - Core fantasy — one sentence: what does the player feel they are?
+   - **Studio mode** (required — record the answer):
+     > **jam** — ship fast, one pillar, ugly ok
+     > **studio** — quality gates, refactor ok, perf matters
 
-   - Working title (or codename)
-   - Engine, language, primary platform(s)
-   - **Pillars** (3 bullets max) -- what the game must always be
-   - **Target feel** -- one paragraph: pace, fantasy, emotional beat
-   - **Visual direction** -- a few words + optional reference games/media
-   - **Scope level**: `jam` | `small` | `ambitious` (honest label)
-   - **Mode**: `jam` | `studio` (from step 4)
+5. **Write** `design/gdd.md` using the template below.
+   - **jam**: fill only Quick context + gameplay sections; mark art
+     direction `TBD` unless the user volunteers specifics.
+   - **studio / build mode**: fill all sections; ask up to 2 follow-up
+     questions if critical fields (camera, controls, win/lose) are unclear.
 
-6. **Confirm** with the user: "Anything wrong? You have final edit rights."
+6. **Confirm**: "Anything wrong? You have final edit rights."
+
+## Template: `design/gdd.md`
+
+```markdown
+# Game Design Document — <title>
+
+_Mode: jam | studio. Last updated: <date>._
+
+## Quick context
+- Engine / language / platform:
+- Studio mode: jam | studio
+- Pillars (3 max):
+- Target feel:
+- Scope: jam | small | ambitious
+
+## Core fantasy
+One sentence.
+
+## Genre
+Primary + secondary influences.
+
+## Player actions
+Verbs the player performs.
+
+## Camera
+Perspective, angle, zoom rules.
+
+## Controls
+Input mapping. TBD if not decided.
+
+## Win / lose conditions
+What ends a session in success or failure.
+
+## Progression
+Skill, unlocks, difficulty curve.
+
+## Core gameplay loop
+Moment-to-moment → session → long-term (three levels).
+
+## Enemy and obstacle design
+Types, behaviors, challenge to player actions.
+
+## Vertical slice scope
+What is playable now. One paragraph, tight scope.
+
+## Not in this slice
+What is explicitly deferred. At least two items.
+
+---
+
+## Art direction
+
+_Filled lightly at /start; refine with /art-direction._
+
+### Visual style
+### Inspiration references
+### Color palette
+### Lighting direction
+### Character proportions
+### Environment style
+### UI style
+### Iconography
+### Texture / material guidelines
+### Animation tone
+### Audio direction
+### Explicitly avoid
+```
 
 ## Mode affects all skills
 
-- **jam**: skip optional gates, prefer speed, accept placeholder quality
+- **jam**: skip optional gates, accept placeholder quality, TBD art ok
 - **studio**: run `/proof-of-fun` before implementation, enforce `/qa`
   regression table, `/retrospective` after each ship
 
 ## Tone
 
-Friendly studio stand-up, not a form factory. If the repo is empty, **celebrate**
-the blank page and still capture pillars from the user's words.
+Friendly stand-up, not a form factory. Infer as much as possible from the
+user's words. Ask only what cannot be inferred. If the repo is empty,
+celebrate the blank page.
 
 ## Do not
 
-- Spawn extra agents or workflows
-- Write more than ~1-2 screens of markdown in `design/pillars.md` unless asked
-- Skip the Studio mode question -- it calibrates every other skill
+- Rewrite an existing `design/gdd.md` without diffing first
+- Write more than ~150 lines in the GDD unless asked
+- Skip the studio mode question — it calibrates every other skill
+- Spawn extra agents or sub-workflows

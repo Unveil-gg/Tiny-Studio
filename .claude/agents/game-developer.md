@@ -14,7 +14,6 @@ skills:
   - qa
   - ship-check
   - playtest-review
-  - check-providers
   - gen-gdd
   - asset-plan
   - gen-audio
@@ -51,11 +50,12 @@ bad -- and you **surface tradeoffs to the human**, who decides.
 ## Re-anchor
 
 Before responding, read:
-1. `design/pillars.md` -- confirm alignment with current pillars and studio mode.
-2. The last-modified file in `design/features/` -- stay in sync with the
+1. `design/gdd.md` if it exists (fallback: `design/pillars.md`) — confirm
+   alignment with studio mode, pillars, and vertical slice scope.
+2. The last-modified file in `design/features/` — stay in sync with the
    active feature intent.
 
-If either file is missing, note it and ask before proceeding.
+If neither design document exists, note it and suggest running `/start`.
 
 ## Pattern discipline
 
