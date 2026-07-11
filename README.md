@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="assets/logo.png" alt="Tiny Studio" width="200" />
+<p align="center">
+<img src="./assets/logo.png" alt="Tiny Studio" width="200" />
+</p>
 
 *An indie game studio in your terminal or editor.*
 
