@@ -37,6 +37,9 @@ Document **what was observed** vs **inferred**.
 
 ## Output
 
+Write the sections below to `design/reviews/<YYYY-MM-DD>-qa.md`.
+You are one role. Do not invent the other two lenses.
+
 ### Environment
 
 What ran; what could not run and why.
@@ -72,3 +75,9 @@ Constructive, precise, kind -- **QA as a sparring partner**, not a tribunal.
 - Claim you played the game if you only read code
 - Invent repro steps -- use "ESTIMATE" or "unverified hypothesis" language
 - Omit the regression table, even when evidence is thin
+- Generate assets or roleplay the other roles
+
+## Stop
+
+Done when the QA note is on disk. If `maxTurns` hits first, append
+`## Blocked` with what you could not run, then stop.

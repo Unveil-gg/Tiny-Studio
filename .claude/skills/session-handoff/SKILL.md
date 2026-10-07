@@ -50,3 +50,10 @@ Honest, minimal. If you don't know a field, write "unknown" -- never skip it.
 - Summarize the whole session in prose
 - Invent tasks that were not discussed
 - Run before asking the human to confirm the summary
+
+## Stop
+
+**Target:** `design/session-log.md`
+
+Done when the entry is appended and the human has seen it. If `maxTurns`
+hits first, write `unknown` for missing fields and stop.

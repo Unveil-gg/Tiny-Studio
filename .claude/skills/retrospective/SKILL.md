@@ -1,24 +1,24 @@
 ---
 name: retrospective
 description: >-
-  Post-ship self-improvement loop. Each agent answers three questions: what
-  worked, what slowed us, one change for next time. Appends to
-  design/retros.md. Run after every /ship-check.
+  Post-ship self-improvement loop. The invoked role answers three questions
+  and appends only its subsection to design/retros.md. Run after every
+  /ship-check. Other roles append on their own turns.
 ---
 
 # /retrospective -- Post-ship loop
 
 ## Purpose
 
-Learn from each ship. Three questions, three voices, one append to the retro
-log. Keeps the studio improving without turning into a feelings meeting.
+Learn from each ship. The invoked role answers three questions and appends
+only its subsection. Other roles write later. No shared transcript.
 
 ## When to run
 
 After every `/ship-check`. Can also run after a major `/playtest-review` or
 mid-project if the team feels stuck.
 
-## Three questions (each agent answers all three)
+## Three questions (the role that was invoked)
 
 1. **What worked?** -- one concrete thing that helped ship or improve quality
 2. **What slowed us?** -- one concrete friction point, not blame
@@ -26,13 +26,12 @@ mid-project if the team feels stuck.
 
 ## Steps
 
-1. Each agent (developer, designer, artist) answers the three questions in
-   their own voice -- brief, honest, specific.
-2. Human may add their own answers or amend any agent's answer.
-3. **Append** the block below to `design/retros.md` (create if missing).
-4. Confirm the append completed.
-5. Suggest one `/implement-feature` or process tweak that addresses the most
-   common "slowed us" answer.
+1. Write only your subsection. Leave the other roles for a later invocation.
+   If a subsection already exists, do not rewrite it.
+2. Human may add their own answers in a later edit.
+3. **Append** your subsection to `design/retros.md` (create if missing).
+   Use the date heading if it is not there yet; do not duplicate it.
+4. Confirm the append completed. Suggest one next step, then stop.
 
 ## Output format (appended to retros.md)
 
@@ -61,5 +60,12 @@ mid-project if the team feels stuck.
 ## Do not
 
 - Expand into multi-paragraph post-mortems
-- Skip an agent's section -- write "no input" if truly nothing to say
+- Write another role's subsection -- they append on their own turn
 - Run this during a ship-check; it comes after
+
+## Stop
+
+**Target:** `design/retros.md`
+
+Done when your subsection is appended. If `maxTurns` hits first, append
+`## Blocked` and stop.

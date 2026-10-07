@@ -1,6 +1,7 @@
 # Creative pillars
 
-Edit this file as your **north star**. `/start` can fill it in when you onboard.
+Legacy scratchpad. `/start` writes `design/gdd.md` and
+`design/specs/mechanics.md`. Prefer those.
 
 ## Working title
 

@@ -1,128 +1,108 @@
 ---
 name: start
 description: >-
-  Onboards a game project and produces design/gdd.md — the single source of
-  truth for design, art direction, and asset generation. Sets studio mode
-  (jam or studio). Use at project start or when resetting direction.
+  Onboards a game project. Writes the design/gdd.md index, fills
+  design/specs/mechanics.md, and sets studio mode in studio.config.json.
+  Use at project start or when resetting direction.
 ---
 
 # /start — Project onboarding
 
 ## Goal
 
-Orient the human + three agents so every later command shares the same
-assumptions. Produce `design/gdd.md` as the single source of truth.
-Keep it a **conversation**, not a form.
+Orient the human and the three roles around the same files. Keep it a
+conversation, not a form. This turn writes files and stops.
+
+## Target
+
+- `design/gdd.md` (index)
+- `design/specs/mechanics.md`
+- `studio.config.json` → `studioMode` only
+
+Art style, schema, and asset hooks stay stubs unless the human volunteers
+those facts in this interview.
 
 ## Steps
 
 1. **Scan the repo** (Read, Glob, Grep): engine files (`project.godot`,
-   `ProjectSettings`, `.uproject`, `package.json`, `Cargo.toml`, etc.),
-   existing `design/gdd.md` or `design/pillars.md`.
+   `ProjectSettings`, `.uproject`, `package.json`, `Cargo.toml`, etc.)
+   and `design/gdd.md`.
 
 2. **Classify state**: empty / idea-only / prototype / active / unknown.
+   Title `Untitled` with pillars `TBD` counts as empty.
 
-3. **If `design/gdd.md` exists**: read it, summarize what's already there,
-   ask what has changed — do not start over.
+3. **If the index already has a real title**: read it and the specs,
+   summarize, ask what changed. Do not start over.
 
 4. **Interview** (one compact block; infer what the repo already shows):
    - Working title or codename?
    - Engine, language, primary platform?
-   - Core fantasy — one sentence: what does the player feel they are?
-   - **Studio mode** (required — record the answer):
+   - Core fantasy — one sentence.
+   - **Studio mode** (required):
      > **jam** — ship fast, one pillar, ugly ok
      > **studio** — quality gates, refactor ok, perf matters
 
-5. **Write** `design/gdd.md` using the template below.
-   - **jam**: fill only Quick context + gameplay sections; mark art
-     direction `TBD` unless the user volunteers specifics.
-   - **studio / build mode**: fill all sections; ask up to 2 follow-up
-     questions if critical fields (camera, controls, win/lose) are unclear.
+5. **Write**:
+   - Index: title, mode, engine, up to three pillars, links unchanged.
+   - Mechanics: **jam** fills Verbs, Loop, and Win / lose; leave the
+     rest `TBD`. **studio** fills every required heading. Ask up to
+     two follow-ups if camera, controls, or win/lose are still unclear
+     — put camera and controls under Loop or State machine, not new
+     required headings.
+   - Set `studioMode` in `studio.config.json` to `jam` or `studio`.
+     Do not change turn budgets or paths.
+   - Bump `revision` and `updated` on every file you change. Keep
+     `## Changelog` to the latest 5 bullets.
 
-6. **Confirm**: "Anything wrong? You have final edit rights."
+6. Run `npm run validate`. If it fails, fix the files once.
 
-## Template: `design/gdd.md`
+7. **Confirm**: "Anything wrong? You have final edit rights."
+
+## Index shape
 
 ```markdown
-# Game Design Document — <title>
-
-_Mode: jam | studio. Last updated: <date>._
-
-## Quick context
-- Engine / language / platform:
-- Studio mode: jam | studio
-- Pillars (3 max):
-- Target feel:
-- Scope: jam | small | ambitious
-
-## Core fantasy
-One sentence.
-
-## Genre
-Primary + secondary influences.
-
-## Player actions
-Verbs the player performs.
-
-## Camera
-Perspective, angle, zoom rules.
-
-## Controls
-Input mapping. TBD if not decided.
-
-## Win / lose conditions
-What ends a session in success or failure.
-
-## Progression
-Skill, unlocks, difficulty curve.
-
-## Core gameplay loop
-Moment-to-moment → session → long-term (three levels).
-
-## Enemy and obstacle design
-Types, behaviors, challenge to player actions.
-
-## Vertical slice scope
-What is playable now. One paragraph, tight scope.
-
-## Not in this slice
-What is explicitly deferred. At least two items.
-
+---
+revision: 1
+updated: YYYY-MM-DD
 ---
 
-## Art direction
+# <title>
 
-_Filled lightly at /start; refine with /art-direction._
+_Index only. Owned specs live under design/specs/._
 
-### Visual style
-### Inspiration references
-### Color palette
-### Lighting direction
-### Character proportions
-### Environment style
-### UI style
-### Iconography
-### Texture / material guidelines
-### Animation tone
-### Audio direction
-### Explicitly avoid
+## Studio
+
+- Mode: jam | studio
+- Engine / language / platform:
+- Pillars (3 max):
+
+## Specs
+
+- [Mechanics](specs/mechanics.md) — designer
+- [Schema](specs/schema.json) — developer
+- [Art style](specs/art_style.md) — artist
+- [Asset hooks](specs/asset_hooks.json) — slot metadata
 ```
 
-## Mode affects all skills
+Required mechanic headings: `Verbs`, `Loop`, `Progression`,
+`Win / lose`, `State machine`.
 
-- **jam**: skip optional gates, accept placeholder quality, TBD art ok
-- **studio**: run `/proof-of-fun` before implementation, enforce `/qa`
-  regression table, `/retrospective` after each ship
+## Mode affects later skills
 
-## Tone
+- **jam**: skip optional gates, `TBD` art is fine
+- **studio**: `/proof-of-fun` before implementation, `/qa` regression
+  table, `/retrospective` after each ship
 
-Friendly stand-up, not a form factory. Infer as much as possible from the
-user's words. Ask only what cannot be inferred. If the repo is empty,
-celebrate the blank page.
+## Stop
+
+Done when the index and mechanics are written and `npm run validate`
+passes. If `maxTurns` hits first, add `## Blocked` to mechanics with
+what is missing, then stop.
 
 ## Do not
 
-- Rewrite an existing `design/gdd.md` without diffing first
-- Write more than ~150 lines in the GDD unless asked
-- Skip the studio mode question — it calibrates every other skill
-- Spawn extra agents or sub-workflows
+- Rewrite a filled index without reading it first
+- Roleplay the developer or the artist
+- Add generation prompts or binary assets
+- Invent headings the validator does not require
+- Spawn other agents

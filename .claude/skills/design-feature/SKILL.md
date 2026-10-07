@@ -1,66 +1,79 @@
 ---
 name: design-feature
-description: Designer-led feature spec with dev+artist input. Use before implementing gameplay, UI, or content.
+description: >-
+  Designer-led feature spec. Writes design/features/<slug>.md and stops.
+  Developer and artist fill their own sections in a later turn.
 ---
 
 # /design-feature -- Lean feature spec
 
-## Roles (single session, three voices)
+## Who writes this turn
 
-- **Lead: game-designer** -- problem, player outcome, loop fit, scope
-- **Contributions: game-developer** -- feasibility, edge cases, perf risks
-- **Contributions: game-artist** -- clarity, telegraphing, UI/motion needs
+- **game-designer** (default): intent, rules, scope, risk, acceptance.
+  Leave developer and artist sections as `TBD`.
+- **game-developer**, only when the file already exists: fill
+  `## Developer notes` only.
+- **game-artist**, only when the file already exists: fill
+  `## Visual / UI notes` only.
 
-## Steps
+Do not write another role's sections.
 
-1. **Name the feature** in user's language; confirm **why now** (priority).
+## Target
+
+`design/features/<slug>.md` (`<slug>` is kebab-case).
+
+## Steps (designer)
+
+1. **Name the feature** in the user's language; confirm **why now**.
 2. **Player story**: "As a player, I can..." + **success moment**.
-3. **Rules (plain language)** -- inputs, outputs, failure, edge cases (bullet list).
-4. **Feel & clarity** -- telegraphing, feedback, audio/VFX hooks (light).
-5. **Not in this slice** -- what is explicitly deferred (non-optional; see below).
-6. **Risk** -- three mandatory bullets (see below).
-7. **Acceptance** -- 3-5 testable bullets (behavior + feel).
+3. **Rules** -- inputs, outputs, failure, edge cases.
+4. **Not in this slice** and **Risk** (both required; see below).
+5. **Acceptance** -- 3-5 testable bullets.
+6. Write the file. Stop.
 
-## Output
-
-Write to `design/features/<slug>.md` where `<slug>` is kebab-case (create
-`design/features/` if needed). Template:
+## Template
 
 ```markdown
 # Feature: <Title>
 ## Why
 ## Player experience
 ## Rules & edge cases
-## Visual / UI notes
 ## Not in this slice
 ## Risk
 ## Acceptance criteria
 ## Open questions
+## Developer notes
+TBD — game-developer fills this in a later turn.
+## Visual / UI notes
+TBD — game-artist fills this in a later turn.
 ```
 
 ### Not in this slice (required)
 
-List everything that was discussed but will **not** ship in v1. If nothing was
-explicitly deferred, write at least one thing you considered and rejected.
-Omitting this section means the spec is incomplete.
+List what will **not** ship in v1. If nothing was deferred, write one
+thing you considered and rejected.
 
 ### Risk (required)
 
-Exactly three bullets -- one each:
-- **What makes this unfun?** (player-facing failure mode)
-- **What makes this unreadable?** (clarity / feedback failure)
-- **What makes this unmaintainable?** (code / scope failure)
+Exactly three bullets, one sentence each:
 
-Keep each bullet to one sentence. Not optional.
+- **What makes this unfun?**
+- **What makes this unreadable?**
+- **What makes this unmaintainable?**
 
 Keep the file **under ~120 lines** unless the user asks for depth.
 
-## End state
+## Stop
 
-Ask: "Ready to `/proof-of-fun` this, then `/implement-feature`?"
+Done when your section of the feature file is written. If `maxTurns`
+hits first, add `## Blocked` with what is missing, then stop.
+
+Ask the human, once: "Ready to `/proof-of-fun` this, then
+`/implement-feature`?" Then stop. Do not start those skills yourself.
 
 ## Do not
 
-- Hide disagreements -- if dev and art pull different ways, state both and let
-  the user choose
-- Skip "Not in this slice" or "Risk" -- both are required sections
+- Roleplay the other two voices in this turn
+- Hide a disagreement -- write option A vs option B and let the user choose
+- Skip "Not in this slice" or "Risk"
+- Generate assets or write provider prompts

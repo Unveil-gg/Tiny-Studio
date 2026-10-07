@@ -21,12 +21,13 @@ elevated shell for `mklink`).
 
 ## Highlights
 
-- **Three agents, many skills** — developer, designer, and artist voices plus
-  slash workflows from `/start` through `/vertical-slice`, scoped for small teams.
+- **Three agents, many skills** — developer, designer, and artist. Each
+  writes a spec file and stops. Workflows run from `/start` through
+  `/vertical-slice`.
 - **Client-flexible, engine-agnostic** — use **Claude Code**, **Cursor**, or
   **Codex CLI**; no required `src/` layout or engine stack in the template.
-- **Optional MCP servers** — screen snapshots (`tiny-vision`) and asset
-  generation (`tiny-assets`) when you want evidence and real audio/2D/3D output.
+- **Optional vision MCP** — screen snapshots (`tiny-vision`) for playtest
+  evidence. Audio, image, and mesh generation stay in an external tool.
 - **Single source for skills** — edit **`.claude/skills/`** only; Cursor stays in
   sync via **`.cursor/skills`** when the symlink is intact
   ([TROUBLESHOOTING.md](TROUBLESHOOTING.md) if not).
@@ -44,7 +45,7 @@ elevated shell for `mklink`).
 - **`.claude/docs/`** — philosophy, collaboration, QA-evidence, and optional
   MCP setup:
   - [vision-setup.md](.claude/docs/vision-setup.md) — `tiny-vision`
-  - [assets-setup.md](.claude/docs/assets-setup.md) — `tiny-assets`
+  - [external-assets.md](.claude/docs/external-assets.md) — slot metadata only
 - **`.claude/settings.json`** — starter permission hints you can extend.
 
 There is **no** mandatory `src/`, engine, or engine-specific stack — add your game
@@ -59,36 +60,35 @@ where you like; the template stays lightweight.
      **Windows**).
    - **Codex CLI:** reads **`AGENTS.md`** → **`CLAUDE.md`** → skill files.
      Agent Skills live under `.agents/skills` ([docs](https://developers.openai.com/codex/skills)); copy or symlink `.claude/skills/<name>` there to reuse.
-3. Run **`/start`** to onboard and write **`design/gdd.md`** (design + art direction).
-4. When building gameplay: **`/brainstorm`**, **`/design-feature`**,
-   **`/implement-feature`** in that order.
-5. Before you show a build: **`/qa`** and **`/ship-check`**.
+3. Run **`/start`** to write the **`design/gdd.md`** index and
+   **`design/specs/mechanics.md`**.
+4. When building gameplay: **`/brainstorm`**, **`/proof-of-fun`**,
+   **`/design-feature`**, **`/implement-feature`** in that order.
+5. Check the spec contract with **`npm run validate`**.
+6. Before you show a build: **`/qa`** and **`/ship-check`**.
 
 ### Slash commands (skills)
 
 | Command              | Purpose                                      |
 |----------------------|----------------------------------------------|
-| `/start`             | Onboard; write `design/gdd.md`               |
+| `/start`             | Index + mechanics; set studio mode           |
 | `/brainstorm`        | Shape concepts, verbs, emotional goals       |
-| `/design-feature`    | Lean feature spec (designer-led)             |
+| `/proof-of-fun`      | 30-second slice; human go / no-go            |
+| `/design-feature`    | Lean feature spec (one role per turn)        |
 | `/implement-feature` | Build in slices (developer-led)              |
-| `/art-direction`     | Refine GDD art direction section             |
-| `/playtest-review`   | All three perspectives on a slice or idea    |
+| `/art-direction`     | Write `design/specs/art_style.md`            |
+| `/playtest-review`   | One role appends a review note, then stops   |
 | `/qa`                | Evidence-first quality pass                  |
 | `/ship-check`        | Share/release readiness for the stated scope |
-| `/asset-plan`        | Asset budget; gate paid API calls            |
-| `/gen-audio`         | Audio via ElevenLabs MCP                     |
-| `/gen-2d`            | 2D via Nano Banana MCP                       |
-| `/gen-3d`            | 3D via Tripo MCP (draft → optional refine)   |
-| `/vertical-slice`    | Full slice: plan → generate → playtest       |
+| `/gen-gdd`           | Deepen one spec file, then stop              |
+| `/vertical-slice`    | Specs → implement → `/qa`                    |
 
 Names may appear with or without the slash depending on your client. Skill files:
 **`.claude/skills/<name>/SKILL.md`**.
 
-### Optional MCP servers
+### Optional MCP
 
-Both are **optional**. Skills work without them; placeholders are used when
-providers are missing.
+Vision is **optional**. Skills work without it.
 
 #### Vision — `tiny-vision`
 
@@ -100,45 +100,22 @@ pip install -r requirements-vision.txt
 # Cursor MCP: python -m core.vision.mcp_server  (cwd = repo root)
 ```
 
-#### Assets — `tiny-assets`
+#### Assets
 
-Real audio, 2D, and 3D generation. API keys stay in the server process — never
-returned to the LLM. Missing keys are **non-blocking**; those asset types use
-placeholders while configured providers continue.
+This repo does not generate audio, images, or meshes. Slot metadata lives
+in **`design/specs/asset_hooks.json`**. Attach an external tool such as
+Mason in your client when you want binaries. See
+**[.claude/docs/external-assets.md](.claude/docs/external-assets.md)**.
 
-See **[.claude/docs/assets-setup.md](.claude/docs/assets-setup.md)** for full setup.
-
-**Install:**
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements-assets.txt
-```
-
-**Environment variables** (set only what you need):
-
-| Provider    | Variable                          |
-|-------------|-----------------------------------|
-| ElevenLabs  | `ELEVENLABS_API_KEY`              |
-| Tripo AI    | `TRIPO_API_KEY`                   |
-| Nano Banana | `GEMINI_API_KEY` or `GOOGLE_API_KEY` |
-
-**Cursor MCP config:**
-
-- **Command:** venv `python`
-- **Args:** `-m`, `core.assets.mcp_server`
-- **Working directory:** this repo root
-- **`tool_timeout_sec`:** `200` (Tripo refine can take up to ~180s)
-
-**Check providers (CLI):**
+#### Spec check
 
 ```powershell
-python -m core.assets.providers
+npm install
+npm run validate
 ```
 
-**Tools exposed:** `check_asset_providers`, `gen_audio`, `gen_2d`,
-`gen_3d_draft`, `gen_3d_refine`
+`studio.config.json` holds studio mode, turn budgets, and artifact paths.
+No API keys.
 
 ### Invoking agents
 

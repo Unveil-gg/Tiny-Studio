@@ -47,3 +47,10 @@ Neutral, factual. No editorializing. The log is for future-you, not a postmortem
 - Delete or rewrite any existing section of the feature spec
 - Record cuts to CLAUDE.md or pillars.md -- feature file only
 - Mark something as cut without a reason, even if the reason is "human said so"
+
+## Stop
+
+**Target:** `design/features/<slug>.md`
+
+Done when the cut row is appended. If `maxTurns` hits first, add
+`## Blocked` and stop. Do not start a debate about the cut.

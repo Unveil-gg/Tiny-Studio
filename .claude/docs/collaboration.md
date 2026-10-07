@@ -1,35 +1,41 @@
 # Collaboration — three peers, one human
 
+Roles write files. They do not share one growing transcript.
+
 ## Roles (specialty, not rank)
 
-| Agent            | Specialty                                      |
+| Agent            | Writes                                         |
 |------------------|------------------------------------------------|
-| game-developer   | Build, tool, debug, performance, feasibility   |
-| game-designer    | Loops, scope, motivation, clarity of rules     |
-| game-artist      | Look, cohesion, UI tone, readability in motion |
+| game-developer   | `design/specs/schema.json`, engine code        |
+| game-designer    | `design/specs/mechanics.md`, feature intent    |
+| game-artist      | `design/specs/art_style.md`, slot metadata     |
 
-No “director class.” Everyone can **critique** everyone; **you** resolve
-conflicts.
+No “director class.” A role may **critique** by writing options into the
+artifact. **You** resolve conflicts. The next role reads the file, not the
+previous chat.
 
-## When to invite whom
+## When to invoke whom
 
-| Situation                         | Lead          | Also pull in              |
-|-----------------------------------|---------------|---------------------------|
-| New project or reset              | any           | `/start` orients all      |
-| Idea phase                        | designer      | artist (mood), dev (risk) |
-| Feature before code               | designer      | dev, artist               |
-| Implementation                    | developer     | designer, artist          |
-| Visual consistency                | artist        | designer, developer       |
-| Playable feedback                 | all three     | `/playtest-review`        |
-| Evidence-based issues             | developer-led | `/qa` uses all lenses     |
-| Share milestone                   | all three     | `/ship-check`             |
+| Situation                         | Lead          | Reads                         |
+|-----------------------------------|---------------|-------------------------------|
+| New project or reset              | any           | `/start` writes the index     |
+| Idea phase                        | designer      | index; then mechanics         |
+| Feature before code               | designer      | mechanics; feature file       |
+| Implementation                    | developer     | feature file, schema, mechanics |
+| Visual consistency                | artist        | art style, mechanics          |
+| Playable feedback                 | one role      | `/playtest-review` appends    |
+| Evidence-based issues             | developer     | `/qa` writes a review note    |
+| Share milestone                   | one role      | `/ship-check` writes a note   |
+
+Invoke the next role in a **new** turn after the file is updated. Do not
+simulate the other two voices in the same session.
 
 ## Disagreement protocol
 
-1. State **A** and **B** plainly (not “some people say…”).
+1. State **A** and **B** plainly in the artifact (not “some people say…”).
 2. Tie each to **pillars** and **scope** when possible.
 3. Recommend nothing **by fiat** — recommend **by tradeoff**.
-4. Stop and **ask you** when the call is creative, not technical.
+4. Stop. **Ask the human** when the call is creative, not technical.
 
 ## Tone
 

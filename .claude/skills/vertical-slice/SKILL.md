@@ -1,96 +1,63 @@
 ---
 name: vertical-slice
 description: >-
-  Master orchestration for a playable vertical slice. Requires design/gdd.md
-  (run /start first). Checks providers, gates paid calls at asset-plan
-  confirmation, runs generation skills, integrates, and playtests.
+  Playable slice from confirmed specs: implement, then /qa. Does not
+  generate audio, images, or meshes.
 ---
 
-# /vertical-slice — Playable slice orchestration
+# /vertical-slice — Playable slice
 
 ## Goal
 
-Fastest playable vertical slice with coherent design — not maximum asset
-count. Improve feel and pacing before generating more content.
+The smallest playable slice that matches the specs. Feel and pacing
+before more content.
+
+## Target
+
+`design/reviews/<YYYY-MM-DD>-slice.md` — what was confirmed, what
+shipped, and that `/qa` ran.
 
 ## Precondition
 
-`design/gdd.md` must exist with a confirmed `## Vertical slice scope`.
-Run `/start` if it does not.
+`design/gdd.md` is filled (title is not `Untitled`).
+`design/specs/mechanics.md` has real **Verbs** and **Loop** text, not
+`TBD`. If not, stop and run `/start`.
 
 ## Pipeline
 
----
+1. **Read** the index, mechanics, schema, and art style. Do not
+   interview the other roles. The files are the brief.
 
-### Stage 1 — Provider check
+2. **Implement** the slice in `/implement-feature` terms: one playable
+   path, then stop and check that it runs. Update
+   `design/specs/schema.json` if the data shape changes.
 
-Call MCP tool `check_asset_providers`, or run
-`python -m core.assets.providers`.
+3. **Slots, not files.** If the slice needs an asset, append a slot to
+   `design/specs/asset_hooks.json` (`id`, `kind`, `purpose`,
+   `status: "unassigned"`). Use a code placeholder. Do not generate
+   binaries. Mason stays external; see `.claude/docs/external-assets.md`.
 
-Report status for every provider. For each missing or unavailable provider,
-note which asset types will use placeholders. **Continue the pipeline** for
-any configured provider — one missing key must not block others.
+4. **`/qa`** on the running slice. Check controls, readability against
+   `art_style.md`, and missing hook slots.
 
-| Provider    | Env var                         | If absent         |
-|-------------|---------------------------------|-------------------|
-| ElevenLabs  | `ELEVENLABS_API_KEY`            | audio placeholder |
-| Tripo AI    | `TRIPO_API_KEY`                 | 3D placeholder    |
-| Nano Banana | `GEMINI_API_KEY` / `GOOGLE_API_KEY` | 2D placeholder |
-| Blender     | `blender` in PATH               | skip post-process |
-| Snapshots   | `tiny-vision` MCP               | skip captures     |
+5. **Write** the review note: specs used, files touched, how to run,
+   open `TBD`s.
 
----
+## Platform
 
-### Stage 2 — Asset plan
+Default to a **web prototype** unless the index names something else.
+If the request implies native, desktop, console, or Steam-first, ask
+which platform is first. Default native stack, if they pick native:
+**SDL3 + bgfx**.
 
-Run `/asset-plan` — present the budget and estimated API calls.
+## Stop
 
-**Gate: wait for explicit developer approval before Stage 3.**
-A "go" or "ok" counts. Silence does not.
+Done when the slice note is written and `/qa` has a review file.
+If `maxTurns` hits first, write `## Blocked` in the slice note and stop.
 
----
+## Do not
 
-### Stage 3 — Asset generation
-
-Requires **`tiny-assets` MCP** (see `.claude/docs/assets-setup.md`).
-For each asset in the confirmed plan:
-- Audio → `/gen-audio` → `gen_audio`
-- 3D models → `/gen-3d` → `gen_3d_draft` (optional `gen_3d_refine`)
-- 2D assets → `/gen-2d` → `gen_2d`
-
-If a provider is unavailable, create a placeholder and continue — do not
-stop the pipeline. Log each failure.
-
----
-
-### Stage 4 — Integration
-
-Place all verified assets in the correct project structure.
-Update `design/asset-plan.md` with final status per asset.
-Note assets requiring manual work (rigging, scene placement, etc.).
-
----
-
-### Stage 5 — Playtest
-
-Build and launch per README. If `take_game_snapshot` MCP is available,
-capture the gameplay view, HUD, and menu.
-Run `/qa` — check readability, missing assets, runtime issues, visual
-consistency with GDD art direction, and control feel.
-
----
-
-## Platform defaults
-
-Default to **web prototype** unless the GDD implies otherwise.
-If the request implies native, desktop, console, or Steam-first:
-> "Which platform should be targeted first?"
-
-Default native stack: **SDL3 + bgfx**.
-
-## Never
-
-- Spend paid API calls without Stage 2 approval
-- Generate filler assets not in the confirmed asset plan
-- Generate variants by default — one canonical asset per slot
-- Block the build because one provider or asset failed
+- Call image, audio, or mesh providers
+- Invent generation prompts
+- Block the build because Mason is disabled
+- Roleplay designer and artist inside this turn

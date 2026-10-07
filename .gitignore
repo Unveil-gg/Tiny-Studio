@@ -32,3 +32,6 @@ assets/audio/
 assets/2d/
 assets/3d/
 !assets/logo.png
+
+# Config validator (npm run validate)
+node_modules/

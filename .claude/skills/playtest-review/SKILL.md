@@ -1,44 +1,51 @@
 ---
 name: playtest-review
 description: >-
-  Collaborative review with all three studio perspectives on a build or feature:
-  clarity, fun, friction, feel, readability, delight. Produces actionable
-  improvements. Use after a playable slice exists or for paper review of flow.
+  One role reviews a build or feature and appends a short note to
+  design/reviews/<date>.md, then stops. Invoke each role separately.
 ---
 
-# /playtest-review — Three friends play (or imagine) the game
+# /playtest-review — One role, one note
 
-## Voices
+## Who writes this turn
 
-Rotate **short** paragraphs:
+The role that was invoked. Write only that lens:
 
-1. **game-designer** — loop, motivation, difficulty, clarity of rules
-2. **game-developer** — responsiveness, bugs, perf, implementation risks
-3. **game-artist** — readability, UI, motion, mood, cohesion
+- **game-designer** — loop, motivation, difficulty, clarity of rules
+- **game-developer** — responsiveness, bugs, perf, implementation risks
+- **game-artist** — readability, UI, motion, mood, cohesion
 
-## If playable
+Read the specs and any notes already in the review file. Do not rewrite
+another role's note. Do not speak in their voice.
 
-- Prefer the user or agent **running** the build (`/qa` has more detail on
-  evidence). Here, focus on **interpretation**: what would confuse a new player?
+## Target
 
-## Output structure
+`design/reviews/<YYYY-MM-DD>.md` (create the folder and file if needed).
+
+If playable, prefer a real run or `/qa` evidence. This skill interprets
+what would confuse a new player.
+
+## Append
 
 ```markdown
-## Summary (one paragraph)
-## What’s working (bullets)
-## Friction & confusion (bullets)
-## Delight opportunities (bullets)
-## Action list (max 7, prioritized)
-## Disagreements (if any — options for the human)
+## <role> — YYYY-MM-DD
+
+- Working: <one sentence>
+- Friction: <one sentence>
+- Next: <one concrete step>
 ```
 
-## Rules
+If you disagree with a note already in the file, add one bullet:
+`Disagree: A vs B — human picks.` Then stop.
 
-- **Actionable** items only — each ties to a concrete next step.
-- If something is unknown, **say so** and suggest what to observe next time.
-- **Disagreements** are healthy: present A vs B without merging into mush.
+## Stop
+
+Done when your note is appended. If `maxTurns` hits first, append
+`## Blocked` with what you could not judge, then stop.
 
 ## Do not
 
-- Pretend everyone agrees when they don’t
-- Write a novel — this is a review, not a postmortem
+- Write the other two roles' sections
+- Pretend a missing role agrees with you
+- Turn the note into an essay
+- Generate assets

@@ -31,36 +31,33 @@ multi-agent pipeline.
 | `.claude/docs/collaboration.md` | Peer roles; who leads when; disagreement -> options for you. |
 | `.claude/docs/qa-evidence.md` | `/qa` ladder: run -> logs -> captures; label guesses honestly. |
 | `.claude/docs/vision-setup.md` | Optional vision MCP: screen snapshots (`take_game_snapshot`) for vibe/UI checks. |
-| `.claude/docs/assets-setup.md` | Asset MCP (`tiny-assets`): `gen_audio`, `gen_2d`, `gen_3d_draft`, `gen_3d_refine`. |
+| `.claude/docs/external-assets.md` | Slot metadata only. Mason (or similar) attaches outside this repo. |
 
 ## How to work here
 
 1. **`/start`** -- onboard; set studio mode (`jam` or `studio`).
 2. **`/brainstorm`** → **`/proof-of-fun`** → **`/design-feature`** → **`/implement-feature`**
 3. **`/art-direction`** -- look, UI, mood.
-4. **`/playtest-review`** -- all three voices on a slice.
+4. **`/playtest-review`** -- one role appends a note, then stops.
 5. **`/qa`** -- evidence-first quality pass.
 6. **`/ship-check`** -- release readiness.
 7. **`/retrospective`** -- post-ship loop.
 8. **`/cut`** -- descope with memory.
 9. **`/session-handoff`** -- end-of-session continuity.
 
-### Asset generation (vertical slice)
+### Specs, not a group chat
 
-`/start` creates `design/gdd.md` — the single source of truth for design,
-art direction, and generation. Run it first.
+`/start` writes `design/gdd.md` as an index and fills
+`design/specs/mechanics.md`. Each role owns one file and stops when
+that file validates or its turn budget hits:
 
-10. **`/gen-gdd`** -- deepen or restructure `design/gdd.md` after `/start`.
-    Use when specific sections are thin or the design has shifted.
-11. **`/asset-plan`** -- minimal asset budget. Presents estimated API calls
-    and waits for your confirmation before any paid provider is used.
-12. **`/gen-audio`** -- generate audio via ElevenLabs (`gen_audio` MCP); verify before accepting.
-13. **`/gen-3d`** -- generate 3D via Tripo (`gen_3d_draft` / `gen_3d_refine` MCP).
-14. **`/gen-2d`** -- generate 2D via Nano Banana (`gen_2d` MCP); verify against GDD.
-15. **`/vertical-slice`** -- master orchestration: provider check → asset plan
-    confirmation → generation → integration → `/qa`. Provider checks are
-    non-blocking — missing keys use placeholders; configured providers
-    continue.
+10. **`/gen-gdd`** -- deepen one spec (`mechanics`, `schema`, `art`, or `index`).
+11. **`/vertical-slice`** -- confirmed specs, then implement, then `/qa`.
+    No audio, image, or mesh generation.
+
+`npm run validate` checks `studio.config.json`, the spec files, and
+that each agent's `maxTurns` matches `turnBudget`. Asset binaries stay
+in an external tool; see **`.claude/docs/external-assets.md`**.
 
 ## Invoking agents
 
@@ -76,23 +73,24 @@ Use the **Task tool** or your client's subagent flow with:
 
 | Path | Purpose |
 |------|---------|
-| `design/gdd.md` | Single source of truth — design + art direction (from `/start`) |
+| `studio.config.json` | Studio mode, turn budgets, artifact paths, Mason hook |
+| `design/gdd.md` | Index — title, mode, pillars, links (from `/start`) |
+| `design/specs/mechanics.md` | Designer: verbs, loop, progression, win/lose |
+| `design/specs/schema.json` | Developer: entities, state, serialization |
+| `design/specs/art_style.md` | Artist: palette, type, layout, motion |
+| `design/specs/asset_hooks.json` | Slot metadata for an external asset tool |
 | `design/features/` | Feature specs from `/design-feature` |
-| `design/art-notes.md` | Art scratchpad from `/art-direction` (pre-GDD or supplemental) |
-| `design/asset-plan.md` | Asset budget and approval record from `/asset-plan` (optional) |
-| `design/pillars.md` | Legacy — superseded by `gdd.md`; kept for backward compat |
+| `design/reviews/` | One-role notes from review skills |
+| `design/pillars.md` | Legacy scratchpad; the index supersedes it |
 | `design/session-log.md` | Session handoffs from `/session-handoff` |
 | `design/retros.md` | Retrospectives from `/retrospective` |
-| `assets/audio/` | Generated audio assets |
-| `assets/3d/` | Generated 3D model assets |
-| `assets/2d/` | Generated 2D assets |
-| `core/assets/` | Asset generation MCP (`tiny-assets`) + provider checks |
 
 ## Tooling notes
 
 - **Cursor:** `.cursor/skills` -> `.claude/skills` (symlink). Wrong link after
   clone -> **`TROUBLESHOOTING.md`**.
-- **Asset MCP:** `tiny-assets` — see **`.claude/docs/assets-setup.md`**.
+- **Vision MCP:** `tiny-vision` — see **`.claude/docs/vision-setup.md`**.
+- **External assets:** slot file only — see **`.claude/docs/external-assets.md`**.
 - **Codex CLI** (and similar): default read is **`AGENTS.md`**; it points here.
 
 ---

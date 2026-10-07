@@ -15,15 +15,17 @@ AAA perfect.”
 
 ## Steps
 
-1. **Re-read** `design/pillars.md` — does the build **express** them?
+1. **Re-read** `design/gdd.md` and the spec you own (mechanics, schema,
+   or art style). Does the build express the pillars?
 2. **Smoke** — if possible, launch once (same evidence rules as `/qa`).
-3. **Cross-voice summary** (short):
-   - **Designer** — is the core loop understandable in minutes?
-   - **Developer** — crashes, saves, platforms, known blockers?
-   - **Artist** — first-screen read, UI honesty, embarrassing placeholders?
+3. **Your lens only** — one short paragraph. Do not write the other roles.
 4. **Audience** — who is this for, and one sentence **why play**?
-5. **Verdict**: `ship`, `ship with caveats`, or `not yet` — with **3** concrete
-   next steps max.
+5. **Verdict**: `ship`, `ship with caveats`, or `not yet` — with **3**
+   concrete next steps max.
+
+## Target
+
+Append your note to `design/reviews/<YYYY-MM-DD>-ship.md`.
 
 ## Output
 
@@ -34,3 +36,9 @@ release notes (transparency builds trust).
 
 - Block on imaginary standards
 - Hide risks — **ship with caveats** is a valid outcome
+- Write the other two roles' verdicts in this turn
+
+## Stop
+
+Done when your note is appended. If `maxTurns` hits first, append
+`## Blocked` and stop.

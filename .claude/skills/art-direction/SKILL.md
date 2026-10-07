@@ -1,9 +1,8 @@
 ---
 name: art-direction
 description: >-
-  Leads visual direction with game-artist: style, tone, asset direction, UI/FX
-  notes, and cohesion rules. Updates the Art direction section of design/gdd.md
-  when it exists, otherwise writes design/art-notes.md. Use when establishing
+  Artist-led visual spec. Writes design/specs/art_style.md (palette, type,
+  layout, motion). Specs only — no binary generation. Use when establishing
   look, rescuing inconsistency, or before a polish pass.
 ---
 
@@ -11,41 +10,53 @@ description: >-
 
 ## Lead
 
-**game-artist** drives. Consult **game-designer** when clarity affects
-mechanics; **game-developer** when tech limits shaders, UI, or performance.
+**game-artist** only. Read mechanics for context. Do not roleplay the
+designer or the developer in this turn.
+
+## Target
+
+`design/specs/art_style.md`
+
+You may append slots to `design/specs/asset_hooks.json`. Each slot is
+only `id`, `kind` (`model` | `sprite` | `audio` | `ui`), `purpose`
+(a design label), and `status` (`unassigned`).
 
 ## Steps
 
-1. **Read** `design/gdd.md` if it exists — focus on `## Art direction` and
-   `## Quick context` for mode, feel, and genre.
-   If `gdd.md` is absent, read `design/art-notes.md` (or note it's missing).
+1. **Read** `design/gdd.md`, `design/specs/art_style.md`, and
+   `design/specs/mechanics.md`.
 
-2. **Audit quickly**: 3 strengths + 3 honest problems in current visuals
-   (from files, screenshots the user provides, or described state).
+2. **Audit quickly**: 3 strengths + 3 honest problems (from files,
+   screenshots the user provides, or described state).
 
-3. **Refine or define**:
-   - **Palette** — primary, secondary, accent, danger/success (hex values)
-   - **Shape language** — curves vs hard edges, proportions
-   - **Motion** — timing personality (snappy vs floaty), restraint level
-   - **UI rules** — hierarchy, one example screen described in words
-   - **FX restraint** — minimal / playful / chaotic
+3. **Fill the four sections** with concrete values:
+   - **Palette** — `#RRGGBB` for background, foreground, accent, danger
+   - **Type** — heading, body, label, caption sizes
+   - **Layout** — spacing, corner radius, z-order bands
+   - **Motion** — action feedback, transition, and idle timing in ms
+   - Use `TBD` for an unknown value. Do not drop a section.
 
-4. **Cohesion rules** — 5–10 bullet do / don't pairs. Be specific: name
-   values, timings, or shapes — not adjectives.
+4. **Cohesion** — 5–10 do / don't pairs inside those sections. Name
+   values, timings, or shapes.
 
-5. **Write output**:
-   - If `design/gdd.md` exists: update only the `## Art direction` section
-     in-place. Do not modify other GDD sections.
-   - If it does not exist: write or update `design/art-notes.md`. Note that
-     running `/start` will absorb these notes into a full GDD.
+5. Bump `revision` and `updated`. Keep `## Changelog` to 5 bullets.
+
+6. Run `npm run validate`. If it fails, fix once.
 
 ## Tone
 
-Encouraging but specific. Replace "make it pop" with contrast, scale, or
-timing numbers.
+Encouraging but specific. Replace "make it pop" with contrast, scale,
+or timing numbers.
+
+## Stop
+
+Done when `art_style.md` validates. If `maxTurns` hits first, add
+`## Blocked` with what is missing, then stop.
 
 ## Do not
 
 - Demand a specific engine or pipeline
-- Touch any GDD section outside `## Art direction`
+- Edit mechanics, schema, or the index pillars
+- Generate images, audio, or meshes
+- Write a provider prompt into the hook file
 - Add reference images to the repo without user request

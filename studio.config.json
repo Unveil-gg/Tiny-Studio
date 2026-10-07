@@ -1,0 +1,21 @@
+{
+  "studioMode": "jam",
+  "turnBudget": {
+    "designer": 8,
+    "developer": 12,
+    "artist": 8
+  },
+  "artifacts": {
+    "index": "design/gdd.md",
+    "mechanics": "design/specs/mechanics.md",
+    "schema": "design/specs/schema.json",
+    "artStyle": "design/specs/art_style.md",
+    "assetHooks": "design/specs/asset_hooks.json"
+  },
+  "externalTools": {
+    "mason": {
+      "enabled": false,
+      "mcpServer": "mason"
+    }
+  }
+}

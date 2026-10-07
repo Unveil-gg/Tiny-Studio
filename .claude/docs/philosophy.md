@@ -14,6 +14,8 @@ org-chart agents**.
 - **Agent armies** — noise scales faster than quality.
 - **Escalation trees** — you are not a ticket system.
 - **Documentation theater** — paper is not progress.
+- **In-repo asset generation** — binaries belong to an external tool.
+  This repo keeps slot metadata only.
 
 ## How decisions happen
 

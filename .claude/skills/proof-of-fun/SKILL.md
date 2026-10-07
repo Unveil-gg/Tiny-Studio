@@ -19,23 +19,25 @@ Stop wasted implementation by forcing a concrete, human-approved answer to:
 Run this before any `/implement-feature` that came from `/brainstorm`. Skip
 only when an explicit feature spec already has a confirmed slice.
 
-## Roles
+## Who writes this turn
 
-- **game-designer** -- defines the smallest runnable slice (5 bullets max)
-- **game-developer** -- estimates effort: S (< 2h), M (half-day), L (1+ day)
-- **Human** -- approves (go) or kills (no-go) before any code is written
+- **game-designer** (default): 30-second experience and the 5-bullet slice.
+  Leave the effort line as `TBD`.
+- **game-developer**, only when the slice is already in the file: fill
+  **Effort estimate** only (S < 2h, M half-day, L 1+ day).
+- **Human** marks go or no-go. Do not begin implementation until they do.
+
+## Target
+
+Append `## Proof-of-fun` to `design/features/<slug>.md` when that file
+exists. Otherwise show the block and stop; do not invent a second spec.
 
 ## Steps
 
-1. **Designer** describes the 30-second experience in plain language:
-   what does the player do, what do they feel, what makes them want to do it
-   again?
-2. **Designer** lists the smallest runnable slice -- 5 bullets max. Every
-   bullet must be playable, not infrastructure.
-3. **Developer** estimates effort (S / M / L) and flags any hidden complexity.
-4. **Present to human** -- one compact block (see output format below).
-5. **Wait for human decision.** Do not begin implementation until you have an
-   explicit go.
+1. Read `design/specs/mechanics.md` and the feature file. Do not load
+   another role's transcript.
+2. Write only your section of the block below.
+3. Stop and wait for the human. Do not start `/implement-feature`.
 
 ## Output format (fixed)
 
@@ -54,8 +56,15 @@ only when an explicit feature spec already has a confirmed slice.
 **Decision:** [ ] go  [ ] no-go  [ ] revise slice
 ```
 
+## Stop
+
+Done when your section of the proof block is in the feature file (or
+shown, if no feature file exists). If `maxTurns` hits first, add
+`## Blocked` and stop.
+
 ## Do not
 
 - Begin any code before the human marks "go"
 - Expand the slice during estimation
+- Write the other role's section
 - Skip this step because the idea "seems obviously fun"
